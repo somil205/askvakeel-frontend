@@ -1,26 +1,92 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-ink: #0A0E1A;
+  --color-ink-soft: #121829;
+  --color-ink-elev: #1A2132;
+  --color-ink-line: #1F2A44;
+  --color-cream: #F5EBDC;
+  --color-cream-soft: #C9C3B5;
+  --color-cream-muted: #7A7668;
+  --color-gold: #D4A574;
+  --color-gold-bright: #F0C896;
+  --color-gold-dim: #8F6F45;
+  --color-peach: #E8A478;
+  --font-display: var(--font-fraunces), serif;
+  --font-sans: var(--font-manrope), sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html, body {
+  background: var(--color-ink);
+  color: var(--color-cream);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01", "ss02";
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* { box-sizing: border-box; }
+
+::selection { background: var(--color-gold); color: var(--color-ink); }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-ink-line); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-gold-dim); }
+
+.font-display { font-family: var(--font-display); font-feature-settings: "ss01"; }
+.font-sans { font-family: var(--font-sans); }
+
+/* Gold gradient text */
+.gold-gradient {
+  background: linear-gradient(135deg, #F0C896 0%, #D4A574 50%, #E8A478 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Noise */
+.noise::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  z-index: 1;
+  mix-blend-mode: overlay;
 }
+
+/* Ambient glow */
+.ambient-glow {
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,165,116,0.07) 0%, rgba(232,164,120,0.03) 40%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.text-balance { text-wrap: balance; }
+
+/* Hover lift */
+.hover-lift { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s; }
+.hover-lift:hover { transform: translateY(-2px); }
+
+/* Markdown styles */
+.markdown strong { color: var(--color-gold-bright); font-weight: 600; }
+.markdown em { color: var(--color-cream); font-style: italic; }
+.markdown h1, .markdown h2, .markdown h3 { color: var(--color-gold-bright); font-family: var(--font-display); margin-top: 1.5rem; margin-bottom: 0.75rem; font-weight: 500; }
+.markdown h1 { font-size: 1.5rem; }
+.markdown h2 { font-size: 1.25rem; }
+.markdown h3 { font-size: 1.1rem; }
+.markdown ol, .markdown ul { padding-left: 1.5rem; margin: 0.75rem 0; }
+.markdown ol { list-style-type: decimal; }
+.markdown ul { list-style-type: disc; }
+.markdown li { margin: 0.5rem 0; color: var(--color-cream-soft); }
+.markdown p { margin: 0.85rem 0; color: var(--color-cream-soft); line-height: 1.8; }
+.markdown code { background: var(--color-ink-elev); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; color: var(--color-gold); }
+.markdown table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+.markdown th, .markdown td { border: 1px solid var(--color-ink-line); padding: 0.6rem 0.8rem; text-align: left; }
+.markdown th { background: var(--color-ink-elev); color: var(--color-gold-bright); font-weight: 600; }
+.markdown hr { border: none; border-top: 1px solid var(--color-ink-line); margin: 1.5rem 0; }
