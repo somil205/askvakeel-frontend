@@ -12,11 +12,11 @@ type Message = { role: "user" | "assistant"; content: string };
 
 const FEATURES = [
   { icon: FileText, title: "FIR Draft Generator", desc: "Generate a professional FIR in the correct Indian police format. Download as PDF instantly.", query: "Draft FIR - someone stole my phone" },
+  { icon: Shield, title: "Bail Eligibility Checker", desc: "Instant analysis: will you get bail? Case strength score, grounds to argue, court jurisdiction.", query: "Will I get bail for theft case?" },
+  { icon: BookOpen, title: "Landmark Case Law", desc: "Cite actual Supreme Court judgments — Maneka Gandhi, Kesavananda Bharati, Puttaswamy, and more.", query: "Landmark judgments on right to privacy" },
   { icon: Scale, title: "Section Finder", desc: "Find every applicable section across BNS, BNSS, BSA, Constitution, and 10 other major acts.", query: "What sections apply for online fraud?" },
-  { icon: BookOpen, title: "IPC to BNS Converter", desc: "407 mappings between old IPC sections and new Bharatiya Nyaya Sanhita codes.", query: "Convert IPC 302 to BNS" },
+  { icon: Sparkles, title: "IPC to BNS Converter", desc: "407 mappings between old IPC sections and new Bharatiya Nyaya Sanhita codes.", query: "Convert IPC 302 to BNS" },
   { icon: Gavel, title: "Punishment Calculator", desc: "Exact sentences, fines, bail status, cognizability, and court jurisdiction.", query: "What is the punishment for robbery?" },
-  { icon: Shield, title: "Know Your Rights", desc: "Constitutional rights, consumer protection, DV Act, RTI, employment — explained clearly.", query: "What is Article 21?" },
-  { icon: Users, title: "Court & Lawyer Finder", desc: "Locate nearest courts, free legal aid services, and emergency helplines near you.", query: "How to find nearest court?" },
 ];
 
 const LAW_CHIPS = [
