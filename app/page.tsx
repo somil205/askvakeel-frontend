@@ -511,9 +511,9 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
             <p>
               Trained on all 14 major Indian laws — from the new Bharatiya Nyaya Sanhita (BNS) replacing IPC, to the Constitution, Consumer Protection Act, Domestic Violence Act, POCSO, IT Act, Motor Vehicles Act, and more. Ask anything. Get instant, accurate answers.
             </p>
-            <div className="pt-5 sm:pt-6 border-t border-[var(--color-ink-line)] flex items-start gap-3 text-xs sm:text-sm text-[var(--color-cream-muted)]">
-              <span className="text-[var(--color-gold)] mt-0.5">⚠</span>
-              <p>Legal information only — not legal advice. For specific matters, consult a qualified advocate. Your conversations are not stored.</p>
+            <div className="pt-5 sm:pt-6 border-t border-[var(--color-ink-line)] flex items-center gap-3 text-xs sm:text-sm text-[var(--color-cream-muted)]">
+              <span className="text-[var(--color-gold)] flex-shrink-0 text-base sm:text-lg">⚠</span>
+              <p className="leading-relaxed">Legal information only — not legal advice. For specific matters, consult a qualified advocate. Your conversations are not stored.</p>
             </div>
           </div>
         </div>
