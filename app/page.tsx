@@ -385,10 +385,11 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
             <span className="text-xs text-[var(--color-cream-muted)] block mb-3">Try asking</span>
             <div className="flex flex-wrap gap-2">
               {[
-                "Draft FIR for theft",
-                "What is Article 21?",
-                "Punishment for cheating",
-                "Limitation for cheque bounce",
+                "IPC 302 in BNS",
+                "Anticipatory bail rules",
+                "Rights during arrest",
+                "Cheque bounce limitation",
+                "Punishment for fraud",
               ].map((ex, i) => (
                 <button
                   key={i}
