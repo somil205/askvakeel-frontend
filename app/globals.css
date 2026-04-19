@@ -48,6 +48,7 @@ h1, h2, h3, p, span, button {
   font-size: clamp(2.25rem, 7.5vw, 7rem);
   line-height: 1;
   letter-spacing: -0.03em;
+  padding-right: 0.1em;
 }
 
 /* Fluid H2 section titles: 32px mobile to 72px desktop */
@@ -58,6 +59,11 @@ h1, h2, h3, p, span, button {
   word-break: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
+  padding-right: 0.1em;
+}
+
+.fluid-h2 .italic, .fluid-h2 em, .gold-gradient {
+  padding-right: 0.05em;
 }
 
 /* Fluid H3: 24px mobile to 48px desktop */
