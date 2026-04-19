@@ -2,31 +2,156 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Send, Download, Loader2, Trash2, ArrowUpRight, FileText, Scale, BookOpen, Gavel, Shield, Users, Sparkles } from "lucide-react";
+import { Send, Download, Loader2, Trash2, ArrowUpRight, FileText, Scale, BookOpen, Gavel, Shield, Users, Sparkles, ArrowLeft } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://vakeel-ai-production.up.railway.app";
 
 type Message = { role: "user" | "assistant"; content: string };
+type ViewMode = "landing" | "chat" | "feature";
 
-const FEATURES = [
-  { icon: FileText, title: "FIR Draft Generator", desc: "Generate a professional FIR in the correct Indian police format. Download as PDF instantly.", query: "Draft FIR - someone stole my phone" },
-  { icon: Shield, title: "Bail Eligibility Checker", desc: "Will you get bail? Instant analysis with case strength score, grounds to argue, court jurisdiction.", query: "Will I get bail for theft case?" },
-  { icon: BookOpen, title: "Landmark Case Law", desc: "Cite actual Supreme Court judgments — Maneka Gandhi, Kesavananda, Puttaswamy, Vishaka, and more.", query: "Landmark judgments on right to privacy" },
-  { icon: Gavel, title: "Lawyer Analysis Mode", desc: "Rigorous legal analysis with primary position, opposing arguments, rebuttals, and case strength score.", query: "As a lawyer, legal analysis of dowry harassment under BNS 85" },
-  { icon: Sparkles, title: "Limitation Calculator", desc: "Exact deadlines for every legal action — cheque bounce, consumer, RTI, appeals. Zero hallucination.", query: "Limitation period for cheque bounce" },
-  { icon: Scale, title: "Section Finder", desc: "Find every applicable section across BNS, BNSS, BSA, Constitution, and 10 other major acts.", query: "What sections apply for online fraud?" },
-  { icon: Users, title: "IPC to BNS Converter", desc: "407 mappings between old IPC sections and new Bharatiya Nyaya Sanhita codes.", query: "Convert IPC 302 to BNS" },
-  { icon: FileText, title: "Punishment Calculator", desc: "Exact sentences, fines, bail status, cognizability, and court jurisdiction for any offence.", query: "What is the punishment for robbery?" },
+type Feature = {
+  id: string;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  title: string;
+  desc: string;
+  longDesc: string;
+  suggestions: string[];
+  placeholder: string;
+};
+
+const FEATURES: Feature[] = [
+  {
+    id: "fir",
+    icon: FileText,
+    title: "FIR Draft Generator",
+    desc: "Generate a professional FIR in the correct Indian police format. Download as PDF instantly.",
+    longDesc: "Describe what happened and get a ready-to-file FIR with correct BNS sections, proper format, and legal language. Download as PDF to take directly to the police station.",
+    suggestions: [
+      "Draft FIR - someone stole my phone in Mumbai",
+      "Draft FIR for break-in at my home last night",
+      "Draft FIR for online cheating, lost Rs 50,000",
+      "Draft FIR for threatening messages from neighbour",
+      "Draft FIR for harassment at workplace",
+      "Draft FIR for cyberstalking on Instagram",
+    ],
+    placeholder: "Describe the incident for FIR...",
+  },
+  {
+    id: "bail",
+    icon: Shield,
+    title: "Bail Eligibility Checker",
+    desc: "Will you get bail? Instant analysis with case strength score, grounds to argue, court jurisdiction.",
+    longDesc: "Get complete bail analysis: bailable or not, which court, case strength score, grounds to argue, likely conditions, and next steps.",
+    suggestions: [
+      "Will I get bail for theft case?",
+      "Bail eligibility for cheque bounce under Section 138",
+      "Can I get anticipatory bail for false dowry case?",
+      "Bail chances in cyber fraud case",
+      "Will I get bail for assault charges?",
+      "Default bail under BNSS 187 eligibility",
+    ],
+    placeholder: "Describe your charge/arrest situation...",
+  },
+  {
+    id: "caselaw",
+    icon: BookOpen,
+    title: "Landmark Case Law",
+    desc: "Cite actual Supreme Court judgments — Maneka Gandhi, Kesavananda, Puttaswamy, Vishaka, and more.",
+    longDesc: "Get landmark Supreme Court judgments relevant to your legal issue. Proper citations, ratio decidendi, and current applicability.",
+    suggestions: [
+      "Landmark judgments on right to privacy",
+      "Supreme Court rulings on free speech",
+      "Case law on mandatory FIR registration",
+      "Precedents on women's workplace rights",
+      "Landmark judgments on arrest procedures",
+      "Supreme Court cases on bail principles",
+    ],
+    placeholder: "What legal issue do you need case law for?",
+  },
+  {
+    id: "explain",
+    icon: Gavel,
+    title: "Lawyer Analysis Mode",
+    desc: "Rigorous legal analysis with primary position, opposing arguments, rebuttals, and case strength score.",
+    longDesc: "Professional-grade analysis for lawyers: primary position, opposing counsel's likely argument, rebuttal strategies, case strength score, and practical next steps.",
+    suggestions: [
+      "As a lawyer, analyze Section 498A dowry harassment",
+      "Legal analysis: Can landlord evict without notice?",
+      "Explain reasoning for cheque bounce defence",
+      "Opposing argument for POSH workplace complaint",
+      "Both sides: Consumer complaint for defective product",
+      "How to argue anticipatory bail in domestic violence case",
+    ],
+    placeholder: "Describe the case for lawyer-grade analysis...",
+  },
+  {
+    id: "limitation",
+    icon: Sparkles,
+    title: "Limitation Calculator",
+    desc: "Exact deadlines for every legal action — cheque bounce, consumer, RTI, appeals. Zero hallucination.",
+    longDesc: "Verified deadlines from the Limitation Act 1963 and specific statutes. No AI guessing — pure retrieval from legal codes.",
+    suggestions: [
+      "Limitation period for cheque bounce",
+      "Deadline to file consumer complaint",
+      "Time limit for filing RTI appeal",
+      "How long do I have to file a civil suit?",
+      "Limitation for motor accident claim",
+      "Deadline for SLP in Supreme Court",
+    ],
+    placeholder: "What legal action do you need the deadline for?",
+  },
+  {
+    id: "sections",
+    icon: Scale,
+    title: "Section Finder",
+    desc: "Find every applicable section across BNS, BNSS, BSA, Constitution, and 10 other major acts.",
+    longDesc: "Describe a situation and get a complete table of every applicable section across all 14 Indian laws with punishments and classifications.",
+    suggestions: [
+      "What sections apply for online fraud?",
+      "All sections for workplace sexual harassment",
+      "Applicable sections for domestic violence",
+      "Which sections for hit and run accident?",
+      "Sections for cyber blackmail",
+      "All laws for dowry harassment",
+    ],
+    placeholder: "Describe the incident or situation...",
+  },
+  {
+    id: "ipc-bns",
+    icon: Users,
+    title: "IPC to BNS Converter",
+    desc: "407 mappings between old IPC sections and new Bharatiya Nyaya Sanhita codes.",
+    longDesc: "Old IPC section numbers are confusing now. Get the exact BNS equivalent with full section details.",
+    suggestions: [
+      "Convert IPC 302 to BNS",
+      "What is the BNS equivalent of IPC 420?",
+      "IPC 498A is now which BNS section?",
+      "IPC 376 to BNS mapping",
+      "IPC 307 in new BNS",
+      "Convert IPC 354 to BNS",
+    ],
+    placeholder: "Enter IPC section or describe offence...",
+  },
+  {
+    id: "punishment",
+    icon: FileText,
+    title: "Punishment Calculator",
+    desc: "Exact sentences, fines, bail status, cognizability, and court jurisdiction for any offence.",
+    longDesc: "Get a complete punishment table: min/max sentence, fine amount, bail status, cognizability, compoundability, and which court tries it.",
+    suggestions: [
+      "What is the punishment for robbery?",
+      "Punishment for cheating and fraud",
+      "Sentence for rape under BNS",
+      "Penalty for drunk driving",
+      "Punishment for cyber crime",
+      "Jail term for dowry harassment",
+    ],
+    placeholder: "Enter offence or crime type...",
+  },
 ];
 
-const LAW_CHIPS = [
-  "Criminal", "Constitution", "POCSO", "Cyber", "Consumer",
-  "Marriage", "Employment", "Cheque", "Accidents", "POSH", "RTI",
-];
-
-// Premium monogram logo
 function LogoMark({ size = 32 }: { size?: number }) {
   return (
     <svg viewBox="0 0 40 40" width={size} height={size} fill="none">
@@ -37,18 +162,12 @@ function LogoMark({ size = 32 }: { size?: number }) {
         </linearGradient>
       </defs>
       <rect x="1" y="1" width="38" height="38" rx="9" fill="url(#logo-grad)" />
-      {/* Vertical staff */}
       <rect x="19" y="8" width="2" height="26" rx="1" fill="#0A0E1A" />
-      {/* Top cap */}
       <circle cx="20" cy="8" r="2" fill="#0A0E1A" />
-      {/* Horizontal beam */}
       <rect x="7" y="12" width="26" height="2" rx="1" fill="#0A0E1A" />
-      {/* Base platform */}
       <rect x="11" y="33" width="18" height="2" rx="1" fill="#0A0E1A" />
-      {/* Left pan */}
       <path d="M5 18 Q10 23 15 18" stroke="#0A0E1A" strokeWidth="1.8" fill="none" strokeLinecap="round" />
       <line x1="10" y1="13" x2="10" y2="18" stroke="#0A0E1A" strokeWidth="1.5" />
-      {/* Right pan */}
       <path d="M25 18 Q30 23 35 18" stroke="#0A0E1A" strokeWidth="1.8" fill="none" strokeLinecap="round" />
       <line x1="30" y1="13" x2="30" y2="18" stroke="#0A0E1A" strokeWidth="1.5" />
     </svg>
@@ -67,6 +186,8 @@ function Logo({ className = "" }: { className?: string }) {
 }
 
 export default function Home() {
+  const [mode, setMode] = useState<ViewMode>("landing");
+  const [activeFeature, setActiveFeature] = useState<Feature | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -82,11 +203,23 @@ export default function Home() {
     return kw.some(k => q.toLowerCase().includes(k));
   };
 
+  const openFeature = (feature: Feature) => {
+    setActiveFeature(feature);
+    setMode("feature");
+    setMessages([]);
+    setLastFir(null);
+    setInput("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const sendQuery = async (query: string) => {
     if (!query.trim() || loading) return;
-    // Scroll to top when first query is sent
-    if (messages.length === 0) {
+    if (mode === "landing") {
+      setMode("chat");
       window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    if (mode === "feature") {
+      setMode("chat");
     }
     setMessages(prev => [...prev, { role: "user", content: query }]);
     setInput("");
@@ -127,9 +260,19 @@ export default function Home() {
     } catch { alert("PDF download failed"); }
   };
 
-  const clearChat = () => { setMessages([]); setLastFir(null); };
+  const goHome = () => {
+    setMode("landing");
+    setActiveFeature(null);
+    setMessages([]);
+    setLastFir(null);
+    setInput("");
+  };
 
-  if (messages.length > 0) {
+  if (mode === "feature" && activeFeature) {
+    return <FeatureView feature={activeFeature} onSend={sendQuery} onBack={goHome} input={input} setInput={setInput} />;
+  }
+
+  if (mode === "chat") {
     return <ChatView
       messages={messages}
       loading={loading}
@@ -138,18 +281,23 @@ export default function Home() {
       input={input}
       setInput={setInput}
       onSend={sendQuery}
-      onClear={clearChat}
+      onHome={goHome}
       endRef={endRef}
+      activeFeature={activeFeature}
     />;
   }
 
+  return <Landing onQuery={sendQuery} input={input} setInput={setInput} onFeature={openFeature} />;
+}
+
+function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string) => void; input: string; setInput: (v: string) => void; onFeature: (f: Feature) => void }) {
+  const LAW_CHIPS = ["Criminal", "Constitution", "POCSO", "Cyber", "Consumer", "Marriage", "Employment", "Cheque", "Accidents", "POSH", "RTI"];
+
   return (
     <div className="noise min-h-screen relative overflow-hidden">
-      {/* Ambient glows */}
       <div className="ambient-glow" style={{ top: "-300px", left: "-200px" }}></div>
       <div className="ambient-glow" style={{ top: "40%", right: "-300px" }}></div>
 
-      {/* Header */}
       <header className="relative z-20 border-b border-[var(--color-ink-line)]">
         <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
           <Logo />
@@ -164,7 +312,6 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Hero */}
       <section className="relative z-10 max-w-6xl mx-auto px-6 pt-24 pb-20">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -188,7 +335,6 @@ export default function Home() {
           </p>
         </motion.div>
 
-        {/* Search input */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -196,7 +342,7 @@ export default function Home() {
           className="max-w-3xl"
         >
           <form
-            onSubmit={(e) => { e.preventDefault(); sendQuery(input); }}
+            onSubmit={(e) => { e.preventDefault(); onQuery(input); }}
             className="relative"
           >
             <div className="relative bg-[var(--color-ink-soft)] border border-[var(--color-ink-line)] focus-within:border-[var(--color-gold)] rounded-2xl transition-all shadow-2xl">
@@ -216,18 +362,17 @@ export default function Home() {
             </div>
           </form>
 
-          {/* Quick suggestions */}
           <div className="mt-6 flex flex-wrap gap-2">
             <span className="text-xs text-[var(--color-cream-muted)] py-2">Try asking:</span>
             {[
               "Draft FIR for theft",
               "What is Article 21?",
               "Punishment for cheating",
-              "Convert IPC 302 to BNS",
+              "Limitation for cheque bounce",
             ].map((ex, i) => (
               <button
                 key={i}
-                onClick={() => sendQuery(ex)}
+                onClick={() => onQuery(ex)}
                 className="text-xs px-3.5 py-1.5 border border-[var(--color-ink-line)] hover:border-[var(--color-gold)] hover:text-[var(--color-gold)] text-[var(--color-cream-soft)] transition-all rounded-full"
               >
                 {ex}
@@ -237,7 +382,6 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Stats strip */}
       <section className="relative z-10 border-y border-[var(--color-ink-line)] bg-[var(--color-ink-soft)]/30">
         <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-10">
           {[
@@ -260,7 +404,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features */}
       <section id="features" className="relative z-10 max-w-6xl mx-auto px-6 py-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -283,8 +426,8 @@ export default function Home() {
             const Icon = feat.icon;
             return (
               <motion.button
-                key={i}
-                onClick={() => sendQuery(feat.query)}
+                key={feat.id}
+                onClick={() => onFeature(feat)}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -299,7 +442,7 @@ export default function Home() {
                   <h3 className="font-display text-2xl mb-3 text-[var(--color-cream)]">{feat.title}</h3>
                   <p className="text-sm text-[var(--color-cream-soft)] leading-relaxed mb-6">{feat.desc}</p>
                   <div className="flex items-center gap-1.5 text-[11px] tracking-[0.15em] uppercase text-[var(--color-gold)] opacity-0 group-hover:opacity-100 transition-opacity">
-                    Try it now <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={2} />
+                    Open tool <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={2} />
                   </div>
                 </div>
               </motion.button>
@@ -308,7 +451,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Laws covered */}
       <section className="relative z-10 border-t border-[var(--color-ink-line)] bg-[var(--color-ink-soft)]/40">
         <div className="max-w-6xl mx-auto px-6 py-24 text-center">
           <p className="text-[11px] tracking-[0.2em] uppercase text-[var(--color-gold)] mb-5">Trained on</p>
@@ -332,7 +474,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About */}
       <section id="about" className="relative z-10 max-w-6xl mx-auto px-6 py-32">
         <div className="grid md:grid-cols-5 gap-16">
           <div className="md:col-span-2">
@@ -356,7 +497,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="relative z-10 border-t border-[var(--color-ink-line)]">
         <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
           <Logo />
@@ -369,7 +509,111 @@ export default function Home() {
   );
 }
 
-function ChatView({ messages, loading, lastFir, onDownload, input, setInput, onSend, onClear, endRef }: {
+function FeatureView({ feature, onSend, onBack, input, setInput }: { feature: Feature; onSend: (q: string) => void; onBack: () => void; input: string; setInput: (v: string) => void }) {
+  const Icon = feature.icon;
+
+  return (
+    <div className="noise min-h-screen relative overflow-hidden">
+      <div className="ambient-glow" style={{ top: "-400px", left: "50%", transform: "translateX(-50%)" }}></div>
+
+      <header className="relative z-20 border-b border-[var(--color-ink-line)]">
+        <div className="max-w-4xl mx-auto px-6 py-5 flex items-center justify-between">
+          <button onClick={onBack}>
+            <Logo />
+          </button>
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 px-4 py-2 text-xs tracking-wider uppercase text-[var(--color-cream-muted)] hover:text-[var(--color-gold)] transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
+            Back
+          </button>
+        </div>
+      </header>
+
+      <div className="relative z-10 max-w-4xl mx-auto px-6 py-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="w-16 h-16 rounded-2xl bg-[var(--color-ink-elev)] border border-[var(--color-gold-dim)] flex items-center justify-center mb-8">
+            <Icon className="w-7 h-7 text-[var(--color-gold)]" strokeWidth={1.5} />
+          </div>
+
+          <h1 className="font-display text-5xl md:text-6xl leading-[1] mb-6 text-balance">
+            {feature.title.split(" ").slice(0, -1).join(" ")}{" "}
+            <span className="italic gold-gradient">{feature.title.split(" ").slice(-1)}</span>
+          </h1>
+
+          <p className="text-lg text-[var(--color-cream-soft)] max-w-2xl leading-relaxed mb-12">
+            {feature.longDesc}
+          </p>
+        </motion.div>
+
+        {/* Input */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="mb-12"
+        >
+          <form
+            onSubmit={(e) => { e.preventDefault(); onSend(input); }}
+            className="relative"
+          >
+            <div className="relative bg-[var(--color-ink-soft)] border border-[var(--color-ink-line)] focus-within:border-[var(--color-gold)] rounded-2xl transition-all shadow-2xl">
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={feature.placeholder}
+                className="w-full px-7 py-6 pr-16 bg-transparent outline-none text-lg placeholder:text-[var(--color-cream-muted)]"
+                autoFocus
+              />
+              <button
+                type="submit"
+                disabled={!input.trim()}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-[var(--color-gold-bright)] to-[var(--color-gold)] text-[var(--color-ink)] rounded-xl flex items-center justify-center disabled:opacity-40 hover:opacity-90 transition-opacity"
+              >
+                <Send className="w-4 h-4" strokeWidth={2.5} />
+              </button>
+            </div>
+          </form>
+        </motion.div>
+
+        {/* Suggestions */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <p className="text-[11px] tracking-[0.2em] uppercase text-[var(--color-gold)] mb-5">Example questions</p>
+          <div className="grid md:grid-cols-2 gap-3">
+            {feature.suggestions.map((sug, i) => (
+              <motion.button
+                key={i}
+                onClick={() => onSend(sug)}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.4 + i * 0.05 }}
+                className="group text-left p-5 bg-[var(--color-ink-soft)]/60 border border-[var(--color-ink-line)] hover:border-[var(--color-gold-dim)] rounded-xl transition-all"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <span className="text-[var(--color-cream-soft)] group-hover:text-[var(--color-cream)] text-sm leading-relaxed">
+                    {sug}
+                  </span>
+                  <ArrowUpRight className="w-4 h-4 text-[var(--color-gold)] opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+                </div>
+              </motion.button>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+function ChatView({ messages, loading, lastFir, onDownload, input, setInput, onSend, onHome, endRef, activeFeature }: {
   messages: Message[];
   loading: boolean;
   lastFir: string | null;
@@ -377,8 +621,9 @@ function ChatView({ messages, loading, lastFir, onDownload, input, setInput, onS
   input: string;
   setInput: (v: string) => void;
   onSend: (q: string) => void;
-  onClear: () => void;
+  onHome: () => void;
   endRef: React.RefObject<HTMLDivElement | null>;
+  activeFeature: Feature | null;
 }) {
   return (
     <div className="noise min-h-screen relative">
@@ -386,16 +631,23 @@ function ChatView({ messages, loading, lastFir, onDownload, input, setInput, onS
 
       <header className="relative z-20 border-b border-[var(--color-ink-line)]">
         <div className="max-w-4xl mx-auto px-6 py-5 flex items-center justify-between">
-          <button onClick={onClear}>
+          <button onClick={onHome}>
             <Logo />
           </button>
-          <button
-            onClick={onClear}
-            className="flex items-center gap-2 px-4 py-2 text-xs tracking-wider uppercase text-[var(--color-cream-muted)] hover:text-[var(--color-gold)] transition-colors"
-          >
-            <Trash2 className="w-3.5 h-3.5" strokeWidth={1.5} />
-            Clear
-          </button>
+          <div className="flex items-center gap-2">
+            {activeFeature && (
+              <div className="hidden md:block px-3 py-1.5 text-[10px] tracking-[0.15em] uppercase text-[var(--color-gold)] border border-[var(--color-gold-dim)] rounded-full">
+                {activeFeature.title}
+              </div>
+            )}
+            <button
+              onClick={onHome}
+              className="flex items-center gap-2 px-4 py-2 text-xs tracking-wider uppercase text-[var(--color-cream-muted)] hover:text-[var(--color-gold)] transition-colors"
+            >
+              <Trash2 className="w-3.5 h-3.5" strokeWidth={1.5} />
+              Clear
+            </button>
+          </div>
         </div>
       </header>
 
