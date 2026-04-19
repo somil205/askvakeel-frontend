@@ -87,6 +87,22 @@ const FEATURES: Feature[] = [
     placeholder: "Describe the case for lawyer-grade analysis...",
   },
   {
+    id: "crossexam",
+    icon: Users,
+    title: "Cross-Examination Prep",
+    desc: "Strategic cross-examination for witnesses. Contradictions, trap questions, objection handling, BSA section references.",
+    longDesc: "Professional cross-examination prep with 12 strategic sections: preparatory notes, contradiction tables, opening questions, trap questions, bias attacks, objection handling, and court-craft tips for Indian courts.",
+    suggestions: [
+      "Prepare cross examination for prosecution witness in cheque bounce case",
+      "Cross questions for eye witness in murder case",
+      "Cross-examination prep for hostile witness",
+      "Cross exam strategy for police witness in theft case",
+      "Prepare cross for medical expert in assault case",
+      "Witness questioning strategy for false dowry case",
+    ],
+    placeholder: "Describe the witness and case type...",
+  },
+  {
     id: "limitation",
     icon: Sparkles,
     title: "Limitation Calculator",
