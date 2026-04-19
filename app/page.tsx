@@ -89,7 +89,7 @@ const FEATURES: Feature[] = [
   {
     id: "crossexam",
     icon: Users,
-    title: "Cross-Examination Prep",
+    title: "Cross Exam Prep",
     desc: "Strategic cross-examination for witnesses. Contradictions, trap questions, objection handling, BSA section references.",
     longDesc: "Professional cross-examination prep with 12 strategic sections: preparatory notes, contradiction tables, opening questions, trap questions, bias attacks, objection handling, and court-craft tips for Indian courts.",
     suggestions: [
@@ -381,28 +381,30 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
             </div>
           </form>
 
-          <div className="mt-5 sm:mt-6 flex flex-wrap gap-2 items-center">
-            <span className="text-xs text-[var(--color-cream-muted)] py-2">Try asking:</span>
-            {[
-              "Draft FIR for theft",
-              "What is Article 21?",
-              "Punishment for cheating",
-              "Limitation for cheque bounce",
-            ].map((ex, i) => (
-              <button
-                key={i}
-                onClick={() => onQuery(ex)}
-                className="text-xs px-3 sm:px-3.5 py-1.5 border border-[var(--color-ink-line)] hover:border-[var(--color-gold)] hover:text-[var(--color-gold)] text-[var(--color-cream-soft)] transition-all rounded-full"
-              >
-                {ex}
-              </button>
-            ))}
+          <div className="mt-5 sm:mt-6">
+            <span className="text-xs text-[var(--color-cream-muted)] block mb-3">Try asking</span>
+            <div className="flex flex-wrap gap-2">
+              {[
+                "Draft FIR for theft",
+                "What is Article 21?",
+                "Punishment for cheating",
+                "Limitation for cheque bounce",
+              ].map((ex, i) => (
+                <button
+                  key={i}
+                  onClick={() => onQuery(ex)}
+                  className="text-xs px-3 sm:px-3.5 py-1.5 border border-[var(--color-ink-line)] hover:border-[var(--color-gold)] hover:text-[var(--color-gold)] text-[var(--color-cream-soft)] transition-all rounded-full"
+                >
+                  {ex}
+                </button>
+              ))}
+            </div>
           </div>
         </motion.div>
       </section>
 
       <section className="relative z-10 border-y border-[var(--color-ink-line)] bg-[var(--color-ink-soft)]/30">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-8 sm:py-10 grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-8 sm:gap-10">
           {[
             { num: "14", label: "Indian Laws" },
             { num: "3,474", label: "Legal Sections" },
@@ -460,7 +462,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
                   </div>
                   <h3 className="font-display text-xl sm:text-2xl mb-2 sm:mb-3 text-[var(--color-cream)]">{feat.title}</h3>
                   <p className="text-sm text-[var(--color-cream-soft)] leading-relaxed mb-4 sm:mb-6">{feat.desc}</p>
-                  <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] tracking-[0.12em] sm:tracking-[0.15em] uppercase text-[var(--color-gold)] opacity-70 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] tracking-[0.12em] sm:tracking-[0.15em] uppercase text-[var(--color-gold)] opacity-0 group-hover:opacity-100 transition-opacity">
                     Open tool <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={2} />
                   </div>
                 </div>
@@ -560,7 +562,7 @@ function FeatureView({ feature, onSend, onBack, input, setInput }: { feature: Fe
             <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[var(--color-gold)]" strokeWidth={1.5} />
           </div>
 
-          <h1 className="font-display fluid-h2 mb-5 sm:mb-6 text-balance">
+          <h1 className="font-display fluid-h2 mb-5 sm:mb-6 text-balance leading-tight">
             {feature.title.split(" ").slice(0, -1).join(" ")}{" "}
             <span className="italic gold-gradient">{feature.title.split(" ").slice(-1)}</span>
           </h1>

@@ -45,15 +45,15 @@ h1, h2, h3, p, span, button {
 
 /* Fluid hero typography: scales smoothly from 40px on mobile to 112px on desktop */
 .fluid-hero {
-  font-size: clamp(2.5rem, 8vw, 7rem);
-  line-height: 0.95;
+  font-size: clamp(2.25rem, 7.5vw, 7rem);
+  line-height: 1;
   letter-spacing: -0.03em;
 }
 
 /* Fluid H2 section titles: 32px mobile to 72px desktop */
 .fluid-h2 {
-  font-size: clamp(2rem, 5.5vw, 4.5rem);
-  line-height: 1;
+  font-size: clamp(1.75rem, 5vw, 4.5rem);
+  line-height: 1.05;
   letter-spacing: -0.02em;
 }
 
@@ -160,8 +160,8 @@ h1, h2, h3, p, span, button {
 @media (max-width: 640px) {
   /* Reduce section padding on mobile */
   section {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
   }
 
   /* Smaller noise intensity on mobile for performance */
