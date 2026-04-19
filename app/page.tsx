@@ -421,7 +421,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
           </h1>
 
           <p className="fluid-lead text-[var(--color-cream-soft)] max-w-2xl mb-10 sm:mb-14 font-light">
-            Instant, accurate answers on Indian law. Draft FIRs, find applicable sections, check punishments — all free. In English or Hindi.
+            Instant answers on Indian law — for citizens and lawyers. Draft FIRs, prepare cross-examinations, check bail eligibility, cite case law. In English or Hindi.
           </p>
         </motion.div>
 
