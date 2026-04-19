@@ -365,8 +365,10 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask a legal question in English or Hindi..."
+                placeholder="Ask a legal question..."
                 className="w-full px-5 sm:px-7 py-4 sm:py-6 pr-14 sm:pr-16 bg-transparent outline-none text-base sm:text-lg placeholder:text-[var(--color-cream-muted)]"
+                onFocus={(e) => { e.target.placeholder = ""; }}
+                onBlur={(e) => { e.target.placeholder = "Ask a legal question..."; }}
               />
               <button
                 type="submit"
