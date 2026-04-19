@@ -106,8 +106,8 @@ const FEATURES: Feature[] = [
     id: "limitation",
     icon: Sparkles,
     title: "Limitation Calculator",
-    desc: "Exact deadlines for every legal action — cheque bounce, consumer, RTI, appeals. Zero hallucination.",
-    longDesc: "Verified deadlines from the Limitation Act 1963 and specific statutes. No AI guessing — pure retrieval from legal codes.",
+    desc: "Exact deadlines for every legal action — cheque bounce, consumer, RTI, appeals",
+    longDesc: "Verified deadlines from the Limitation Act 1963 and specific statutes.",
     suggestions: [
       "Limitation period for cheque bounce",
       "Deadline to file consumer complaint",
