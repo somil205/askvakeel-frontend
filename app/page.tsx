@@ -177,8 +177,8 @@ function LogoMark({ size = 32 }: { size?: number }) {
 function Logo({ className = "" }: { className?: string }) {
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
-      <LogoMark size={32} />
-      <span className="font-display text-xl tracking-tight">
+      <LogoMark size={28} />
+      <span className="font-display text-lg sm:text-xl tracking-tight">
         Ask<span className="italic">Vakeel</span>
       </span>
     </div>
@@ -299,12 +299,12 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
       <div className="ambient-glow" style={{ top: "40%", right: "-300px" }}></div>
 
       <header className="relative z-20 border-b border-[var(--color-ink-line)]">
-        <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between">
           <Logo />
-          <nav className="hidden md:flex items-center gap-10 text-sm text-[var(--color-cream-soft)]">
-            <a href="#features" className="hover:text-[var(--color-cream)] transition-colors">Product</a>
-            <a href="#about" className="hover:text-[var(--color-cream)] transition-colors">About</a>
-            <div className="flex items-center gap-2 px-3 py-1.5 border border-[var(--color-gold-dim)] rounded-full text-[10px] tracking-[0.15em] uppercase text-[var(--color-gold)]">
+          <nav className="flex items-center gap-4 sm:gap-10 text-sm text-[var(--color-cream-soft)]">
+            <a href="#features" className="hidden sm:inline hover:text-[var(--color-cream)] transition-colors">Product</a>
+            <a href="#about" className="hidden sm:inline hover:text-[var(--color-cream)] transition-colors">About</a>
+            <div className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 border border-[var(--color-gold-dim)] rounded-full text-[9px] sm:text-[10px] tracking-[0.1em] sm:tracking-[0.15em] uppercase text-[var(--color-gold)]">
               <Sparkles className="w-3 h-3" />
               Free Forever
             </div>
@@ -312,25 +312,25 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
         </div>
       </header>
 
-      <section className="relative z-10 max-w-6xl mx-auto px-6 pt-24 pb-20">
+      <section className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-24 pb-12 sm:pb-20">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="flex items-center gap-2 mb-10">
+          <div className="flex items-center gap-2 mb-6 sm:mb-10">
             <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-gold)]"></div>
-            <span className="text-[11px] tracking-[0.2em] uppercase text-[var(--color-cream-muted)]">
+            <span className="text-[9px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[var(--color-cream-muted)]">
               AI Trained on 14 Indian Laws · BNS · BNSS · Constitution
             </span>
           </div>
 
-          <h1 className="font-display font-light text-[64px] md:text-[96px] lg:text-[112px] leading-[0.95] tracking-[-0.03em] mb-8 text-balance">
+          <h1 className="font-display font-light fluid-hero mb-6 sm:mb-8 text-balance">
             Legal clarity.<br />
             <span className="italic gold-gradient font-normal">for every Indian.</span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-[var(--color-cream-soft)] max-w-2xl leading-relaxed mb-14 font-light">
+          <p className="fluid-lead text-[var(--color-cream-soft)] max-w-2xl mb-10 sm:mb-14 font-light">
             Instant, accurate answers on Indian law. Draft FIRs, find applicable sections, check punishments — all free. In English or Hindi.
           </p>
         </motion.div>
@@ -350,19 +350,20 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask a legal question in English or Hindi..."
-                className="w-full px-7 py-6 pr-16 bg-transparent outline-none text-lg placeholder:text-[var(--color-cream-muted)]"
+                className="w-full px-5 sm:px-7 py-4 sm:py-6 pr-14 sm:pr-16 bg-transparent outline-none text-base sm:text-lg placeholder:text-[var(--color-cream-muted)]"
               />
               <button
                 type="submit"
                 disabled={!input.trim()}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-[var(--color-gold-bright)] to-[var(--color-gold)] text-[var(--color-ink)] rounded-xl flex items-center justify-center disabled:opacity-40 hover:opacity-90 transition-opacity"
+                aria-label="Send"
+                className="absolute right-2 sm:right-2.5 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 bg-gradient-to-br from-[var(--color-gold-bright)] to-[var(--color-gold)] text-[var(--color-ink)] rounded-xl flex items-center justify-center disabled:opacity-40 hover:opacity-90 transition-opacity"
               >
                 <Send className="w-4 h-4" strokeWidth={2.5} />
               </button>
             </div>
           </form>
 
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div className="mt-5 sm:mt-6 flex flex-wrap gap-2 items-center">
             <span className="text-xs text-[var(--color-cream-muted)] py-2">Try asking:</span>
             {[
               "Draft FIR for theft",
@@ -373,7 +374,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
               <button
                 key={i}
                 onClick={() => onQuery(ex)}
-                className="text-xs px-3.5 py-1.5 border border-[var(--color-ink-line)] hover:border-[var(--color-gold)] hover:text-[var(--color-gold)] text-[var(--color-cream-soft)] transition-all rounded-full"
+                className="text-xs px-3 sm:px-3.5 py-1.5 border border-[var(--color-ink-line)] hover:border-[var(--color-gold)] hover:text-[var(--color-gold)] text-[var(--color-cream-soft)] transition-all rounded-full"
               >
                 {ex}
               </button>
@@ -383,7 +384,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
       </section>
 
       <section className="relative z-10 border-y border-[var(--color-ink-line)] bg-[var(--color-ink-soft)]/30">
-        <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10">
           {[
             { num: "14", label: "Indian Laws" },
             { num: "3,474", label: "Legal Sections" },
@@ -397,31 +398,31 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
             >
-              <div className="font-display text-5xl md:text-6xl mb-2 gold-gradient">{stat.num}</div>
-              <div className="text-[11px] tracking-[0.15em] uppercase text-[var(--color-cream-muted)]">{stat.label}</div>
+              <div className="font-display fluid-stat mb-2 gold-gradient">{stat.num}</div>
+              <div className="text-[10px] sm:text-[11px] tracking-[0.12em] sm:tracking-[0.15em] uppercase text-[var(--color-cream-muted)]">{stat.label}</div>
             </motion.div>
           ))}
         </div>
       </section>
 
-      <section id="features" className="relative z-10 max-w-6xl mx-auto px-6 py-32">
+      <section id="features" className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mb-20 max-w-3xl"
+          className="mb-12 sm:mb-20 max-w-3xl"
         >
-          <p className="text-[11px] tracking-[0.2em] uppercase text-[var(--color-gold)] mb-5">Capabilities</p>
-          <h2 className="font-display text-5xl md:text-7xl leading-[0.95] mb-6 text-balance">
+          <p className="text-[10px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[var(--color-gold)] mb-4 sm:mb-5">Capabilities</p>
+          <h2 className="font-display fluid-h2 mb-5 sm:mb-6 text-balance">
             Everything you need <span className="italic gold-gradient">to navigate</span> Indian law.
           </h2>
-          <p className="text-lg text-[var(--color-cream-soft)] max-w-xl">
+          <p className="text-base sm:text-lg text-[var(--color-cream-soft)] max-w-xl">
             Built for the citizen, not the lawyer. No subscriptions. No ₹5,000 consultations. Just instant answers.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {FEATURES.map((feat, i) => {
             const Icon = feat.icon;
             return (
@@ -432,16 +433,16 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.06 }}
-                className="group hover-lift bg-[var(--color-ink-soft)]/60 border border-[var(--color-ink-line)] hover:border-[var(--color-gold-dim)] p-8 text-left rounded-2xl backdrop-blur-sm relative overflow-hidden"
+                className="group hover-lift bg-[var(--color-ink-soft)]/60 border border-[var(--color-ink-line)] hover:border-[var(--color-gold-dim)] p-6 sm:p-8 text-left rounded-2xl backdrop-blur-sm relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-gold)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="relative">
-                  <div className="w-12 h-12 rounded-xl bg-[var(--color-ink-elev)] border border-[var(--color-ink-line)] flex items-center justify-center mb-6 group-hover:border-[var(--color-gold)] transition-colors">
+                  <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-[var(--color-ink-elev)] border border-[var(--color-ink-line)] flex items-center justify-center mb-5 sm:mb-6 group-hover:border-[var(--color-gold)] transition-colors">
                     <Icon className="w-5 h-5 text-[var(--color-gold)]" strokeWidth={1.5} />
                   </div>
-                  <h3 className="font-display text-2xl mb-3 text-[var(--color-cream)]">{feat.title}</h3>
-                  <p className="text-sm text-[var(--color-cream-soft)] leading-relaxed mb-6">{feat.desc}</p>
-                  <div className="flex items-center gap-1.5 text-[11px] tracking-[0.15em] uppercase text-[var(--color-gold)] opacity-0 group-hover:opacity-100 transition-opacity">
+                  <h3 className="font-display text-xl sm:text-2xl mb-2 sm:mb-3 text-[var(--color-cream)]">{feat.title}</h3>
+                  <p className="text-sm text-[var(--color-cream-soft)] leading-relaxed mb-4 sm:mb-6">{feat.desc}</p>
+                  <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] tracking-[0.12em] sm:tracking-[0.15em] uppercase text-[var(--color-gold)] opacity-70 sm:opacity-0 group-hover:opacity-100 transition-opacity">
                     Open tool <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={2} />
                   </div>
                 </div>
@@ -452,12 +453,12 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
       </section>
 
       <section className="relative z-10 border-t border-[var(--color-ink-line)] bg-[var(--color-ink-soft)]/40">
-        <div className="max-w-6xl mx-auto px-6 py-24 text-center">
-          <p className="text-[11px] tracking-[0.2em] uppercase text-[var(--color-gold)] mb-5">Trained on</p>
-          <h3 className="font-display text-3xl md:text-4xl mb-10 text-balance max-w-2xl mx-auto">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-24 text-center">
+          <p className="text-[10px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[var(--color-gold)] mb-4 sm:mb-5">Trained on</p>
+          <h3 className="font-display fluid-h3 mb-8 sm:mb-10 text-balance max-w-2xl mx-auto">
             All 14 major Indian laws, <span className="italic gold-gradient">at your fingertips.</span>
           </h3>
-          <div className="flex flex-wrap gap-3 justify-center max-w-3xl mx-auto">
+          <div className="flex flex-wrap gap-2 sm:gap-3 justify-center max-w-3xl mx-auto">
             {LAW_CHIPS.map((chip, i) => (
               <motion.span
                 key={i}
@@ -465,7 +466,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: i * 0.03 }}
-                className="px-5 py-2.5 text-sm border border-[var(--color-ink-line)] text-[var(--color-cream-soft)] rounded-full bg-[var(--color-ink)]"
+                className="px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm border border-[var(--color-ink-line)] text-[var(--color-cream-soft)] rounded-full bg-[var(--color-ink)]"
               >
                 {chip}
               </motion.span>
@@ -474,22 +475,22 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
         </div>
       </section>
 
-      <section id="about" className="relative z-10 max-w-6xl mx-auto px-6 py-32">
-        <div className="grid md:grid-cols-5 gap-16">
+      <section id="about" className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-32">
+        <div className="grid md:grid-cols-5 gap-8 sm:gap-16">
           <div className="md:col-span-2">
-            <p className="text-[11px] tracking-[0.2em] uppercase text-[var(--color-gold)] mb-5">Why AskVakeel</p>
-            <h2 className="font-display text-4xl md:text-5xl leading-[1.05] text-balance">
+            <p className="text-[10px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[var(--color-gold)] mb-4 sm:mb-5">Why AskVakeel</p>
+            <h2 className="font-display fluid-h3 leading-[1.05] text-balance">
               Built for the <span className="italic gold-gradient">citizen,</span> not the lawyer.
             </h2>
           </div>
-          <div className="md:col-span-3 space-y-6 text-[var(--color-cream-soft)] leading-loose text-lg">
+          <div className="md:col-span-3 space-y-5 sm:space-y-6 text-[var(--color-cream-soft)] leading-loose text-base sm:text-lg">
             <p>
               Most legal tools are built for lawyers charging ₹5,000 per consultation. AskVakeel is different. It's built for the 1.4 billion Indians who deserve to understand their rights without paying a fee.
             </p>
             <p>
               Trained on all 14 major Indian laws — from the new Bharatiya Nyaya Sanhita (BNS) replacing IPC, to the Constitution, Consumer Protection Act, Domestic Violence Act, POCSO, IT Act, Motor Vehicles Act, and more. Ask anything. Get instant, accurate answers.
             </p>
-            <div className="pt-6 border-t border-[var(--color-ink-line)] flex items-start gap-3 text-sm text-[var(--color-cream-muted)]">
+            <div className="pt-5 sm:pt-6 border-t border-[var(--color-ink-line)] flex items-start gap-3 text-xs sm:text-sm text-[var(--color-cream-muted)]">
               <span className="text-[var(--color-gold)] mt-0.5">⚠</span>
               <p>Legal information only — not legal advice. For specific matters, consult a qualified advocate. Your conversations are not stored.</p>
             </div>
@@ -498,9 +499,9 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
       </section>
 
       <footer className="relative z-10 border-t border-[var(--color-ink-line)]">
-        <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <Logo />
-          <div className="text-sm text-[var(--color-cream-muted)]">
+          <div className="text-xs sm:text-sm text-[var(--color-cream-muted)] text-center">
             © 2026 · askvakeel.in · Free legal intelligence for India
           </div>
         </div>
@@ -517,13 +518,13 @@ function FeatureView({ feature, onSend, onBack, input, setInput }: { feature: Fe
       <div className="ambient-glow" style={{ top: "-400px", left: "50%", transform: "translateX(-50%)" }}></div>
 
       <header className="relative z-20 border-b border-[var(--color-ink-line)]">
-        <div className="max-w-4xl mx-auto px-6 py-5 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between">
           <button onClick={onBack}>
             <Logo />
           </button>
           <button
             onClick={onBack}
-            className="flex items-center gap-2 px-4 py-2 text-xs tracking-wider uppercase text-[var(--color-cream-muted)] hover:text-[var(--color-gold)] transition-colors"
+            className="flex items-center gap-2 px-3 sm:px-4 py-2 text-xs tracking-wider uppercase text-[var(--color-cream-muted)] hover:text-[var(--color-gold)] transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
             Back
@@ -531,32 +532,31 @@ function FeatureView({ feature, onSend, onBack, input, setInput }: { feature: Fe
         </div>
       </header>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6 py-16">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="w-16 h-16 rounded-2xl bg-[var(--color-ink-elev)] border border-[var(--color-gold-dim)] flex items-center justify-center mb-8">
-            <Icon className="w-7 h-7 text-[var(--color-gold)]" strokeWidth={1.5} />
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[var(--color-ink-elev)] border border-[var(--color-gold-dim)] flex items-center justify-center mb-6 sm:mb-8">
+            <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[var(--color-gold)]" strokeWidth={1.5} />
           </div>
 
-          <h1 className="font-display text-5xl md:text-6xl leading-[1] mb-6 text-balance">
+          <h1 className="font-display fluid-h2 mb-5 sm:mb-6 text-balance">
             {feature.title.split(" ").slice(0, -1).join(" ")}{" "}
             <span className="italic gold-gradient">{feature.title.split(" ").slice(-1)}</span>
           </h1>
 
-          <p className="text-lg text-[var(--color-cream-soft)] max-w-2xl leading-relaxed mb-12">
+          <p className="text-base sm:text-lg text-[var(--color-cream-soft)] max-w-2xl leading-relaxed mb-8 sm:mb-12">
             {feature.longDesc}
           </p>
         </motion.div>
 
-        {/* Input */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="mb-12"
+          className="mb-8 sm:mb-12"
         >
           <form
             onSubmit={(e) => { e.preventDefault(); onSend(input); }}
@@ -567,13 +567,14 @@ function FeatureView({ feature, onSend, onBack, input, setInput }: { feature: Fe
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={feature.placeholder}
-                className="w-full px-7 py-6 pr-16 bg-transparent outline-none text-lg placeholder:text-[var(--color-cream-muted)]"
+                className="w-full px-5 sm:px-7 py-4 sm:py-6 pr-14 sm:pr-16 bg-transparent outline-none text-base sm:text-lg placeholder:text-[var(--color-cream-muted)]"
                 autoFocus
               />
               <button
                 type="submit"
                 disabled={!input.trim()}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-[var(--color-gold-bright)] to-[var(--color-gold)] text-[var(--color-ink)] rounded-xl flex items-center justify-center disabled:opacity-40 hover:opacity-90 transition-opacity"
+                aria-label="Send"
+                className="absolute right-2 sm:right-2.5 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 bg-gradient-to-br from-[var(--color-gold-bright)] to-[var(--color-gold)] text-[var(--color-ink)] rounded-xl flex items-center justify-center disabled:opacity-40 hover:opacity-90 transition-opacity"
               >
                 <Send className="w-4 h-4" strokeWidth={2.5} />
               </button>
@@ -581,14 +582,13 @@ function FeatureView({ feature, onSend, onBack, input, setInput }: { feature: Fe
           </form>
         </motion.div>
 
-        {/* Suggestions */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <p className="text-[11px] tracking-[0.2em] uppercase text-[var(--color-gold)] mb-5">Example questions</p>
-          <div className="grid md:grid-cols-2 gap-3">
+          <p className="text-[10px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[var(--color-gold)] mb-4 sm:mb-5">Example questions</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3">
             {feature.suggestions.map((sug, i) => (
               <motion.button
                 key={i}
@@ -596,13 +596,13 @@ function FeatureView({ feature, onSend, onBack, input, setInput }: { feature: Fe
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.4 + i * 0.05 }}
-                className="group text-left p-5 bg-[var(--color-ink-soft)]/60 border border-[var(--color-ink-line)] hover:border-[var(--color-gold-dim)] rounded-xl transition-all"
+                className="group text-left p-4 sm:p-5 bg-[var(--color-ink-soft)]/60 border border-[var(--color-ink-line)] hover:border-[var(--color-gold-dim)] rounded-xl transition-all"
               >
                 <div className="flex items-start justify-between gap-3">
                   <span className="text-[var(--color-cream-soft)] group-hover:text-[var(--color-cream)] text-sm leading-relaxed">
                     {sug}
                   </span>
-                  <ArrowUpRight className="w-4 h-4 text-[var(--color-gold)] opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+                  <ArrowUpRight className="w-4 h-4 text-[var(--color-gold)] opacity-70 sm:opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-0.5" strokeWidth={1.5} />
                 </div>
               </motion.button>
             ))}
@@ -630,7 +630,7 @@ function ChatView({ messages, loading, lastFir, onDownload, input, setInput, onS
       <div className="ambient-glow" style={{ top: "-400px", left: "50%", transform: "translateX(-50%)" }}></div>
 
       <header className="relative z-20 border-b border-[var(--color-ink-line)]">
-        <div className="max-w-4xl mx-auto px-6 py-5 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between">
           <button onClick={onHome}>
             <Logo />
           </button>
@@ -642,7 +642,7 @@ function ChatView({ messages, loading, lastFir, onDownload, input, setInput, onS
             )}
             <button
               onClick={onHome}
-              className="flex items-center gap-2 px-4 py-2 text-xs tracking-wider uppercase text-[var(--color-cream-muted)] hover:text-[var(--color-gold)] transition-colors"
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 text-xs tracking-wider uppercase text-[var(--color-cream-muted)] hover:text-[var(--color-gold)] transition-colors"
             >
               <Trash2 className="w-3.5 h-3.5" strokeWidth={1.5} />
               Clear
@@ -651,8 +651,8 @@ function ChatView({ messages, loading, lastFir, onDownload, input, setInput, onS
         </div>
       </header>
 
-      <div className="relative z-10 max-w-3xl mx-auto px-6 py-12 pb-40">
-        <div className="space-y-10">
+      <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 pb-40 sm:pb-40">
+        <div className="space-y-8 sm:space-y-10">
           {messages.map((msg, i) => (
             <MessageBlock key={i} message={msg} />
           ))}
@@ -667,7 +667,7 @@ function ChatView({ messages, loading, lastFir, onDownload, input, setInput, onS
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               onClick={onDownload}
-              className="inline-flex items-center gap-2.5 px-6 py-3 bg-gradient-to-br from-[var(--color-gold-bright)] to-[var(--color-gold)] text-[var(--color-ink)] rounded-xl hover:opacity-90 transition-opacity text-sm font-semibold"
+              className="inline-flex items-center gap-2.5 px-5 sm:px-6 py-3 bg-gradient-to-br from-[var(--color-gold-bright)] to-[var(--color-gold)] text-[var(--color-ink)] rounded-xl hover:opacity-90 transition-opacity text-sm font-semibold"
             >
               <Download className="w-4 h-4" strokeWidth={2.5} />
               Download FIR as PDF
@@ -677,26 +677,27 @@ function ChatView({ messages, loading, lastFir, onDownload, input, setInput, onS
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-[var(--color-ink)] via-[var(--color-ink)] to-transparent pt-10 pb-6 z-20">
-        <div className="max-w-3xl mx-auto px-6">
+      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-[var(--color-ink)] via-[var(--color-ink)] to-transparent pt-8 sm:pt-10 pb-safe z-20">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <form onSubmit={(e) => { e.preventDefault(); onSend(input); }} className="relative">
             <div className="relative bg-[var(--color-ink-soft)] border border-[var(--color-ink-line)] focus-within:border-[var(--color-gold)] rounded-2xl transition-all shadow-2xl">
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask a follow-up question..."
-                className="w-full px-6 py-5 pr-14 bg-transparent outline-none placeholder:text-[var(--color-cream-muted)]"
+                className="w-full px-5 sm:px-6 py-4 sm:py-5 pr-12 sm:pr-14 bg-transparent outline-none text-base placeholder:text-[var(--color-cream-muted)]"
               />
               <button
                 type="submit"
                 disabled={loading || !input.trim()}
+                aria-label="Send"
                 className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-gradient-to-br from-[var(--color-gold-bright)] to-[var(--color-gold)] text-[var(--color-ink)] rounded-lg flex items-center justify-center disabled:opacity-30 hover:opacity-90 transition-opacity"
               >
                 <Send className="w-4 h-4" strokeWidth={2.5} />
               </button>
             </div>
           </form>
-          <p className="text-center text-[10px] tracking-[0.15em] uppercase text-[var(--color-cream-muted)] mt-3">
+          <p className="text-center text-[9px] sm:text-[10px] tracking-[0.12em] sm:tracking-[0.15em] uppercase text-[var(--color-cream-muted)] mt-2 sm:mt-3">
             Legal Information · Not Legal Advice · Consult an Advocate
           </p>
         </div>
@@ -716,10 +717,10 @@ function MessageBlock({ message }: { message: Message }) {
         transition={{ duration: 0.4 }}
         className="max-w-2xl ml-auto"
       >
-        <div className="text-[10px] tracking-[0.25em] uppercase text-[var(--color-cream-muted)] mb-3 text-right">
+        <div className="text-[9px] sm:text-[10px] tracking-[0.2em] sm:tracking-[0.25em] uppercase text-[var(--color-cream-muted)] mb-2 sm:mb-3 text-right">
           You
         </div>
-        <div className="font-display text-xl leading-relaxed text-[var(--color-cream)] border-r-2 border-[var(--color-gold)] pr-5 text-right italic">
+        <div className="font-display text-base sm:text-xl leading-relaxed text-[var(--color-cream)] border-r-2 border-[var(--color-gold)] pr-4 sm:pr-5 text-right italic">
           {message.content}
         </div>
       </motion.div>
@@ -732,8 +733,8 @@ function MessageBlock({ message }: { message: Message }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <div className="flex items-center gap-2 mb-4">
-        <Logo className="scale-75 origin-left" />
+      <div className="flex items-center gap-2 mb-3 sm:mb-4">
+        <Logo className="scale-90 sm:scale-75 origin-left" />
       </div>
       <div className="markdown">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>
