@@ -2,9 +2,10 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Send, Download, Loader2, Trash2, ArrowUpRight, FileText, Scale, BookOpen, Gavel, Shield, Users, Sparkles, ArrowLeft } from "lucide-react";
+import { Send, Download, Loader2, Trash2, ArrowUpRight, FileText, Scale, BookOpen, Gavel, Shield, Users, Sparkles, ArrowLeft, Lock, MessageSquare, Handshake } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { anonymize, containsPII } from "@/lib/anonymize";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://vakeel-ai-production.up.railway.app";
 
@@ -19,6 +20,7 @@ type Feature = {
   longDesc: string;
   suggestions: string[];
   placeholder: string;
+  privacyNotice?: boolean;
 };
 
 const FEATURES: Feature[] = [
@@ -29,30 +31,32 @@ const FEATURES: Feature[] = [
     desc: "Generate a professional FIR in the correct Indian police format. Download as PDF instantly.",
     longDesc: "Describe what happened and get a ready-to-file FIR with correct BNS sections, proper format, and legal language. Download as PDF to take directly to the police station.",
     suggestions: [
-      "Draft FIR - someone stole my phone in Mumbai",
-      "Draft FIR for break-in at my home last night",
-      "Draft FIR for online cheating, lost Rs 50,000",
-      "Draft FIR for threatening messages from neighbour",
+      "Draft FIR for theft of phone",
+      "Draft FIR for break-in at home",
+      "Draft FIR for online cheating",
+      "Draft FIR for threatening messages",
       "Draft FIR for harassment at workplace",
-      "Draft FIR for cyberstalking on Instagram",
+      "Draft FIR for cyberstalking",
     ],
-    placeholder: "Describe the incident for FIR...",
+    placeholder: "Describe the incident...",
+    privacyNotice: true,
   },
   {
     id: "bail",
     icon: Shield,
-    title: "Bail Eligibility Checker",
-    desc: "Will you get bail? Instant analysis with case strength score, grounds to argue, court jurisdiction.",
-    longDesc: "Get complete bail analysis: bailable or not, which court, case strength score, grounds to argue, likely conditions, and next steps.",
+    title: "Bail & Criminal Strategy",
+    desc: "Full bail analysis + plea bargaining advice. Case-specific if you provide facts.",
+    longDesc: "Complete bail strategy: bailable status, court jurisdiction, case strength score, grounds to argue, likely conditions, plea bargaining options under BNSS 289-300, and next steps. Provide client background for case-specific advice.",
     suggestions: [
       "Will I get bail for theft case?",
-      "Bail eligibility for cheque bounce under Section 138",
-      "Can I get anticipatory bail for false dowry case?",
-      "Bail chances in cyber fraud case",
-      "Will I get bail for assault charges?",
-      "Default bail under BNSS 187 eligibility",
+      "Bail strategy for cheque bounce first offence",
+      "Anticipatory bail for false dowry case",
+      "Plea bargaining for cheating under BNS 318",
+      "Default bail eligibility after 60 days",
+      "Regular bail in cyber fraud case",
     ],
-    placeholder: "Describe your charge/arrest situation...",
+    placeholder: "Describe the offence and any client background...",
+    privacyNotice: true,
   },
   {
     id: "caselaw",
@@ -85,29 +89,82 @@ const FEATURES: Feature[] = [
       "How to argue anticipatory bail in domestic violence case",
     ],
     placeholder: "Describe the case for lawyer-grade analysis...",
+    privacyNotice: true,
   },
   {
     id: "crossexam",
     icon: Users,
     title: "Cross Exam Prep",
-    desc: "Strategic cross-examination for witnesses. Contradictions, trap questions, objection handling, BSA section references.",
-    longDesc: "Professional cross-examination prep with 12 strategic sections: preparatory notes, contradiction tables, opening questions, trap questions, bias attacks, objection handling, and court-craft tips for Indian courts.",
+    desc: "Strategic cross-examination with contradiction analysis. Paste witness statement for targeted questions.",
+    longDesc: "Deep cross-examination preparation. Paste the witness statement and AI identifies specific contradictions, generates targeted questions, covers objection handling, and teaches court-craft under BSA 2023.",
     suggestions: [
-      "Prepare cross examination for prosecution witness in cheque bounce case",
-      "Cross questions for eye witness in murder case",
+      "Cross exam for prosecution witness in cheque bounce",
+      "Cross questions for eye witness in assault case",
       "Cross-examination prep for hostile witness",
-      "Cross exam strategy for police witness in theft case",
-      "Prepare cross for medical expert in assault case",
-      "Witness questioning strategy for false dowry case",
+      "Cross exam strategy for police witness",
+      "Prepare cross for medical expert",
+      "Witness questioning for false dowry case",
     ],
-    placeholder: "Describe the witness and case type...",
+    placeholder: "Describe the witness, case type, or paste the statement...",
+    privacyNotice: true,
+  },
+  {
+    id: "chiefexam",
+    icon: MessageSquare,
+    title: "Chief Exam Prep",
+    desc: "Prepare to examine your OWN witness. Open questions, document introduction, credibility building.",
+    longDesc: "Chief-examination strategy under BSA Section 142 (no leading questions). Covers witness preparation, narrative structure, exhibit introduction, pre-empting cross-exam attacks, and court-craft.",
+    suggestions: [
+      "Chief examination for my complainant in cheque bounce",
+      "Chief exam for eye witness in assault",
+      "Present my witness in property dispute",
+      "Examining my own witness in divorce case",
+      "Chief exam for character witness",
+      "Present medical expert witness",
+    ],
+    placeholder: "Describe your witness and case type...",
+    privacyNotice: true,
+  },
+  {
+    id: "arguments",
+    icon: Gavel,
+    title: "Final Arguments Builder",
+    desc: "Structured oral submissions for court. Facts + Evidence + Law + Precedent + Prayer.",
+    longDesc: "Build complete oral arguments for final hearing. Opens with greeting, walks through issues, analyzes evidence, cites law, rebuts opposition, closes with prayer. Delivery tips and response to likely judge questions included.",
+    suggestions: [
+      "Final arguments for defence in cheque bounce case",
+      "Closing arguments for plaintiff in property suit",
+      "Oral submission for anticipatory bail hearing",
+      "Final argument for consumer complaint",
+      "Closing for divorce petition",
+      "Arguments for compensation in MACT case",
+    ],
+    placeholder: "Describe the case stage and side you represent...",
+    privacyNotice: true,
+  },
+  {
+    id: "pleabargain",
+    icon: Handshake,
+    title: "Plea Bargaining Advisor",
+    desc: "Evaluate plea bargaining under BNSS 289-300. Eligibility, benefits, procedure, strategic advice.",
+    longDesc: "Determine if plea bargaining is available and beneficial. Covers BNSS 289-300 eligibility, sentence reduction (1/4 or 1/2 of minimum), procedure, MSD meeting, compensation to victim, and strategic considerations.",
+    suggestions: [
+      "Is plea bargaining available for cheating under BNS 318?",
+      "Plea bargain strategy for theft first offence",
+      "Benefits of plea bargain vs trial in cheque bounce",
+      "Procedure for plea bargaining BNSS 290",
+      "When NOT to choose plea bargaining",
+      "Plea bargaining for bribery case",
+    ],
+    placeholder: "Describe the offence and client situation...",
+    privacyNotice: true,
   },
   {
     id: "limitation",
     icon: Sparkles,
     title: "Limitation Calculator",
-    desc: "Exact deadlines for every legal action — cheque bounce, consumer, RTI, appeals.",
-    longDesc: "Verified deadlines from the Limitation Act 1963 and specific statutes.",
+    desc: "Exact deadlines for every legal action — cheque bounce, consumer, RTI, appeals. Verified from the Limitation Act 1963.",
+    longDesc: "Verified deadlines from the Limitation Act 1963 and specific statutes. Pure retrieval from legal codes — every deadline is directly from the law.",
     suggestions: [
       "Limitation period for cheque bounce",
       "Deadline to file consumer complaint",
@@ -201,6 +258,17 @@ function Logo({ className = "" }: { className?: string }) {
   );
 }
 
+function PrivacyBanner() {
+  return (
+    <div className="mb-6 flex items-start gap-3 p-4 bg-[var(--color-ink-elev)]/60 border border-[var(--color-gold-dim)]/30 rounded-xl">
+      <Lock className="w-4 h-4 text-[var(--color-gold)] flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+      <div className="text-xs sm:text-sm text-[var(--color-cream-soft)] leading-relaxed">
+        <span className="text-[var(--color-gold)] font-medium">Privacy protected.</span> Names, phone numbers, Aadhaar, PAN, addresses, and case numbers are automatically anonymized before your query leaves this browser. For best privacy, avoid pasting confidential client documents.
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const [mode, setMode] = useState<ViewMode>("landing");
   const [activeFeature, setActiveFeature] = useState<Feature | null>(null);
@@ -228,8 +296,12 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const sendQuery = async (query: string) => {
-    if (!query.trim() || loading) return;
+  const sendQuery = async (rawQuery: string) => {
+    if (!rawQuery.trim() || loading) return;
+
+    // Anonymize BEFORE sending anywhere
+    const safeQuery = anonymize(rawQuery);
+
     if (mode === "landing") {
       setMode("chat");
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -237,7 +309,9 @@ export default function Home() {
     if (mode === "feature") {
       setMode("chat");
     }
-    setMessages(prev => [...prev, { role: "user", content: query }]);
+
+    // Display original (user sees their own names/details in their own message)
+    setMessages(prev => [...prev, { role: "user", content: rawQuery }]);
     setInput("");
     setLoading(true);
 
@@ -245,12 +319,12 @@ export default function Home() {
       const res = await fetch(`${API_URL}/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query: safeQuery }),  // anonymized version sent to backend
       });
       const data = await res.json();
       const response = data.response || "Sorry, I couldn't process that.";
       setMessages(prev => [...prev, { role: "assistant", content: response }]);
-      if (isFirRequest(query) && !response.toLowerCase().includes("error")) setLastFir(query);
+      if (isFirRequest(rawQuery) && !response.toLowerCase().includes("error")) setLastFir(safeQuery);
     } catch {
       setMessages(prev => [...prev, { role: "assistant", content: "Connection error. Please try again." }]);
     } finally {
@@ -264,7 +338,7 @@ export default function Home() {
       const res = await fetch(`${API_URL}/fir-pdf`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: lastFir }),
+        body: JSON.stringify({ query: lastFir }),  // already anonymized
       });
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
@@ -367,8 +441,6 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask a legal question..."
                 className="w-full px-5 sm:px-7 py-4 sm:py-6 pr-14 sm:pr-16 bg-transparent outline-none text-base sm:text-lg placeholder:text-[var(--color-cream-muted)]"
-                onFocus={(e) => { e.target.placeholder = ""; }}
-                onBlur={(e) => { e.target.placeholder = "Ask a legal question..."; }}
               />
               <button
                 type="submit"
@@ -426,6 +498,16 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
         </div>
       </section>
 
+      {/* Privacy banner on landing */}
+      <section className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16">
+        <div className="flex items-start gap-3 p-4 sm:p-5 bg-[var(--color-ink-elev)]/60 border border-[var(--color-gold-dim)]/30 rounded-xl">
+          <Lock className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--color-gold)] flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+          <div className="text-xs sm:text-sm text-[var(--color-cream-soft)] leading-relaxed">
+            <span className="text-[var(--color-gold)] font-medium">Privacy first.</span> Names, Aadhaar, PAN, phone numbers, addresses, and case numbers are automatically stripped from your queries before they leave your browser. No accounts, no logs, no stored conversations.
+          </div>
+        </div>
+      </section>
+
       <section id="features" className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -439,7 +521,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
             Everything you need <span className="italic gold-gradient">to navigate</span> Indian law.
           </h2>
           <p className="text-base sm:text-lg text-[var(--color-cream-soft)] max-w-xl">
-            Built for the citizen, not the lawyer. No subscriptions. No ₹5,000 consultations. Just instant answers.
+            Built for citizens and lawyers alike. No subscriptions. No ₹5,000 consultations. Just instant, structured answers.
           </p>
         </motion.div>
 
@@ -453,7 +535,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.06 }}
+                transition={{ duration: 0.5, delay: i * 0.04 }}
                 className="group hover-lift bg-[var(--color-ink-soft)]/60 border border-[var(--color-ink-line)] hover:border-[var(--color-gold-dim)] p-6 sm:p-8 text-left rounded-2xl backdrop-blur-sm relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-gold)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -501,19 +583,19 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
           <div className="md:col-span-2">
             <p className="text-[10px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[var(--color-gold)] mb-4 sm:mb-5">Why AskVakeel</p>
             <h2 className="font-display fluid-h3 leading-[1.05] text-balance">
-              Built for the <span className="italic gold-gradient">citizen,</span> not the lawyer.
+              Built for citizens <span className="italic gold-gradient">and lawyers.</span>
             </h2>
           </div>
           <div className="md:col-span-3 space-y-5 sm:space-y-6 text-[var(--color-cream-soft)] leading-loose text-base sm:text-lg">
             <p>
-              Most legal tools are built for lawyers charging ₹5,000 per consultation. AskVakeel is different. It's built for the 1.4 billion Indians who deserve to understand their rights without paying a fee.
+              Most legal tools charge ₹5,000+ per consultation or ₹2,000/month for lawyer software. AskVakeel is different. Free for everyone — citizens who need rights clarity and lawyers who need daily tools.
             </p>
             <p>
-              Trained on all 14 major Indian laws — from the new Bharatiya Nyaya Sanhita (BNS) replacing IPC, to the Constitution, Consumer Protection Act, Domestic Violence Act, POCSO, IT Act, Motor Vehicles Act, and more. Ask anything. Get instant, accurate answers.
+              Trained on all 14 major Indian laws — from the new Bharatiya Nyaya Sanhita (BNS) replacing IPC, to BNSS, BSA, Constitution, Consumer Protection, Domestic Violence, POCSO, IT Act, Motor Vehicles, and more. Includes lawyer-specific tools: cross/chief examination prep, final arguments, plea bargaining analysis, and case-specific bail strategy.
             </p>
             <div className="pt-5 sm:pt-6 border-t border-[var(--color-ink-line)] flex items-center gap-3 text-xs sm:text-sm text-[var(--color-cream-muted)]">
               <span className="text-[var(--color-gold)] flex-shrink-0 text-base sm:text-lg">⚠</span>
-              <p className="leading-relaxed">Legal information only — not legal advice. For specific matters, consult a qualified advocate. Your conversations are not stored.</p>
+              <p className="leading-relaxed">Legal information only — not legal advice. For specific matters, consult a qualified advocate. Your conversations are not stored. PII is anonymized client-side before transmission.</p>
             </div>
           </div>
         </div>
@@ -573,6 +655,8 @@ function FeatureView({ feature, onSend, onBack, input, setInput }: { feature: Fe
           </p>
         </motion.div>
 
+        {feature.privacyNotice && <PrivacyBanner />}
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -600,6 +684,12 @@ function FeatureView({ feature, onSend, onBack, input, setInput }: { feature: Fe
                 <Send className="w-4 h-4" strokeWidth={2.5} />
               </button>
             </div>
+            {containsPII(input) && (
+              <div className="mt-2 text-xs text-[var(--color-gold)] flex items-center gap-1.5">
+                <Lock className="w-3 h-3" strokeWidth={2} />
+                Personal info detected — will be anonymized before sending.
+              </div>
+            )}
           </form>
         </motion.div>
 
@@ -719,7 +809,7 @@ function ChatView({ messages, loading, lastFir, onDownload, input, setInput, onS
             </div>
           </form>
           <p className="text-center text-[9px] sm:text-[10px] tracking-[0.12em] sm:tracking-[0.15em] uppercase text-[var(--color-cream-muted)] mt-2 sm:mt-3">
-            Legal Information · Not Legal Advice · Consult an Advocate
+            <Lock className="w-3 h-3 inline-block mr-1" /> PII anonymized · Not Legal Advice · Consult an Advocate
           </p>
         </div>
       </div>
