@@ -498,16 +498,6 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
         </div>
       </section>
 
-      {/* Privacy banner on landing */}
-      <section className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16">
-        <div className="flex items-start gap-3 p-4 sm:p-5 bg-[var(--color-ink-elev)]/60 border border-[var(--color-gold-dim)]/30 rounded-xl">
-          <Lock className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--color-gold)] flex-shrink-0 mt-0.5" strokeWidth={1.5} />
-          <div className="text-xs sm:text-sm text-[var(--color-cream-soft)] leading-relaxed">
-            <span className="text-[var(--color-gold)] font-medium">Privacy first.</span> Names, Aadhaar, PAN, phone numbers, addresses, and case numbers are automatically stripped from your queries before they leave your browser. No accounts, no logs, no stored conversations.
-          </div>
-        </div>
-      </section>
-
       <section id="features" className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -593,9 +583,15 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
             <p>
               Trained on all 14 major Indian laws — from the new Bharatiya Nyaya Sanhita (BNS) replacing IPC, to BNSS, BSA, Constitution, Consumer Protection, Domestic Violence, POCSO, IT Act, Motor Vehicles, and more. Includes lawyer-specific tools: cross/chief examination prep, final arguments, plea bargaining analysis, and case-specific bail strategy.
             </p>
-            <div className="pt-5 sm:pt-6 border-t border-[var(--color-ink-line)] flex items-center gap-3 text-xs sm:text-sm text-[var(--color-cream-muted)]">
-              <span className="text-[var(--color-gold)] flex-shrink-0 text-base sm:text-lg">⚠</span>
-              <p className="leading-relaxed">Legal information only — not legal advice. For specific matters, consult a qualified advocate. Your conversations are not stored. PII is anonymized client-side before transmission.</p>
+            <div className="pt-5 sm:pt-6 border-t border-[var(--color-ink-line)] space-y-3 text-xs sm:text-sm text-[var(--color-cream-muted)]">
+              <div className="flex items-start gap-3">
+                <span className="text-[var(--color-gold)] flex-shrink-0 text-base sm:text-lg leading-none mt-0.5">⚠</span>
+                <p className="leading-relaxed"><span className="text-[var(--color-cream-soft)]">Legal information only</span> — not legal advice. For specific matters, consult a qualified advocate.</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <Lock className="w-4 h-4 text-[var(--color-gold)] flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+                <p className="leading-relaxed"><span className="text-[var(--color-cream-soft)]">Privacy protected</span> — Names, Aadhaar, PAN, phone numbers, addresses, and case numbers are automatically stripped from your queries before they leave your browser. No accounts, no logs, no stored conversations.</p>
+              </div>
             </div>
           </div>
         </div>
