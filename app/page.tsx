@@ -12,11 +12,13 @@ type Message = { role: "user" | "assistant"; content: string };
 
 const FEATURES = [
   { icon: FileText, title: "FIR Draft Generator", desc: "Generate a professional FIR in the correct Indian police format. Download as PDF instantly.", query: "Draft FIR - someone stole my phone" },
-  { icon: Shield, title: "Bail Eligibility Checker", desc: "Instant analysis: will you get bail? Case strength score, grounds to argue, court jurisdiction.", query: "Will I get bail for theft case?" },
-  { icon: BookOpen, title: "Landmark Case Law", desc: "Cite actual Supreme Court judgments — Maneka Gandhi, Kesavananda Bharati, Puttaswamy, and more.", query: "Landmark judgments on right to privacy" },
+  { icon: Shield, title: "Bail Eligibility Checker", desc: "Will you get bail? Instant analysis with case strength score, grounds to argue, court jurisdiction.", query: "Will I get bail for theft case?" },
+  { icon: BookOpen, title: "Landmark Case Law", desc: "Cite actual Supreme Court judgments — Maneka Gandhi, Kesavananda, Puttaswamy, Vishaka, and more.", query: "Landmark judgments on right to privacy" },
+  { icon: Gavel, title: "Lawyer Analysis Mode", desc: "Rigorous legal analysis with primary position, opposing arguments, rebuttals, and case strength score.", query: "As a lawyer, legal analysis of dowry harassment under BNS 85" },
+  { icon: Sparkles, title: "Limitation Calculator", desc: "Exact deadlines for every legal action — cheque bounce, consumer, RTI, appeals. Zero hallucination.", query: "Limitation period for cheque bounce" },
   { icon: Scale, title: "Section Finder", desc: "Find every applicable section across BNS, BNSS, BSA, Constitution, and 10 other major acts.", query: "What sections apply for online fraud?" },
-  { icon: Sparkles, title: "IPC to BNS Converter", desc: "407 mappings between old IPC sections and new Bharatiya Nyaya Sanhita codes.", query: "Convert IPC 302 to BNS" },
-  { icon: Gavel, title: "Punishment Calculator", desc: "Exact sentences, fines, bail status, cognizability, and court jurisdiction.", query: "What is the punishment for robbery?" },
+  { icon: Users, title: "IPC to BNS Converter", desc: "407 mappings between old IPC sections and new Bharatiya Nyaya Sanhita codes.", query: "Convert IPC 302 to BNS" },
+  { icon: FileText, title: "Punishment Calculator", desc: "Exact sentences, fines, bail status, cognizability, and court jurisdiction for any offence.", query: "What is the punishment for robbery?" },
 ];
 
 const LAW_CHIPS = [
@@ -276,7 +278,7 @@ export default function Home() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           {FEATURES.map((feat, i) => {
             const Icon = feat.icon;
             return (
