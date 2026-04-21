@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Send, Download, Loader2, Trash2, ArrowUpRight, FileText, Scale, BookOpen, Gavel, Shield, Users, Sparkles, ArrowLeft, Lock, MessageSquare, Handshake } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { anonymize, containsPII } from "@/lib/anonymize";
 
@@ -844,7 +845,7 @@ function MessageBlock({ message }: { message: Message }) {
         <Logo className="scale-90 sm:scale-75 origin-left" />
       </div>
       <div className="markdown">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+        <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
           {message.content}
         </ReactMarkdown>
       </div>
