@@ -324,7 +324,7 @@ export default function Home() {
       const data = await res.json();
       const response = data.response || "Sorry, I couldn't process that.";
       setMessages(prev => [...prev, { role: "assistant", content: response }]);
-      if (isFirRequest(rawQuery) && !response.toLowerCase().includes("error")) setLastFir(safeQuery);
+      if (isFirRequest(rawQuery) && !response.toLowerCase().includes("error")) setLastFir(response);
     } catch {
       setMessages(prev => [...prev, { role: "assistant", content: "Connection error. Please try again." }]);
     } finally {
@@ -338,7 +338,7 @@ export default function Home() {
       const res = await fetch(`${API_URL}/fir-pdf`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: lastFir }),  // already anonymized
+        body: JSON.stringify({ response_text: lastFir }),  // generated FIR text (not query)
       });
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
