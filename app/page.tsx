@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Send, Download, Loader2, Trash2, ArrowUpRight, FileText, Scale, BookOpen, Gavel, Shield, Users, Sparkles, ArrowLeft, Lock, MessageSquare, Handshake } from "lucide-react";
+import { Send, Download, Loader2, Trash2, ArrowUpRight, FileText, Scale, BookOpen, Gavel, Shield, Users, Sparkles, ArrowLeft, Lock, MessageSquare, Handshake, Calendar } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
@@ -209,6 +209,21 @@ const FEATURES: Feature[] = [
     placeholder: "Enter IPC section or describe offence...",
   },
   {
+    id: "timeline",
+    icon: Calendar,
+    title: "Timeline Checker",
+    desc: "Paste your case events. We flag which clocks have expired and which are still live.",
+    longDesc: "List the key events of your matter — cheque returned, notice sent, judgment dated, etc. — each on its own line with a date. We parse each event, compute the relevant limitation clock, and return a timeline showing what's safe, what's urgent, and what's time-barred. Useful for intake, briefing, and deciding which remedy to pursue.",
+    suggestions: [
+      "Cheque returned 5 Oct 2025\nNotice served 10 Oct 2025\nConsidering Section 138 complaint",
+      "Sessions court judgment 12 March 2026 convicted for 10 years\nFiling criminal appeal",
+      "HC order dismissed writ on 10 January 2026\nPlanning SLP",
+      "Consumer: defective product bought 20 April 2024",
+    ],
+    placeholder: "Paste your events, one per line, each with a date...",
+    privacyNotice: true,
+  },
+  {
     id: "punishment",
     icon: FileText,
     title: "Punishment Calculator",
@@ -375,6 +390,12 @@ export default function Home() {
       onHome={goHome}
       endRef={endRef}
       activeFeature={activeFeature}
+      onCardSwitch={(cardId, prefilled) => {
+        const feature = FEATURES.find(f => f.id === cardId);
+        if (!feature) return;
+        openFeature(feature);
+        setTimeout(() => sendQuery(prefilled), 50);
+      }}
     />;
   }
 
@@ -721,7 +742,7 @@ function FeatureView({ feature, onSend, onBack, input, setInput }: { feature: Fe
   );
 }
 
-function ChatView({ messages, loading, lastFir, onDownload, input, setInput, onSend, onHome, endRef, activeFeature }: {
+function ChatView({ messages, loading, lastFir, onDownload, input, setInput, onSend, onHome, endRef, activeFeature, onCardSwitch }: {
   messages: Message[];
   loading: boolean;
   lastFir: string | null;
@@ -732,6 +753,7 @@ function ChatView({ messages, loading, lastFir, onDownload, input, setInput, onS
   onHome: () => void;
   endRef: React.RefObject<HTMLDivElement | null>;
   activeFeature: Feature | null;
+  onCardSwitch: (cardId: string, prefilled: string) => void;
 }) {
   return (
     <div className="noise min-h-screen relative">
@@ -762,7 +784,11 @@ function ChatView({ messages, loading, lastFir, onDownload, input, setInput, onS
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 pb-40 sm:pb-40">
         <div className="space-y-8 sm:space-y-10">
           {messages.map((msg, i) => (
-            <MessageBlock key={i} message={msg} />
+            <MessageBlock
+              key={i}
+              message={msg}
+              onCardSwitch={onCardSwitch}
+            />
           ))}
           {loading && (
             <div className="flex items-center gap-3 text-[var(--color-cream-muted)]">
@@ -814,7 +840,13 @@ function ChatView({ messages, loading, lastFir, onDownload, input, setInput, onS
   );
 }
 
-function MessageBlock({ message }: { message: Message }) {
+function MessageBlock({
+  message,
+  onCardSwitch,
+}: {
+  message: Message;
+  onCardSwitch?: (cardId: string, prefilled: string) => void;
+}) {
   const isUser = message.role === "user";
 
   if (isUser) {
@@ -845,7 +877,38 @@ function MessageBlock({ message }: { message: Message }) {
         <Logo className="scale-90 sm:scale-75 origin-left" />
       </div>
       <div className="markdown">
-        <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeRaw]}
+          components={{
+            a: ({ href, children, ...props }) => {
+              if (href && href.startsWith("action:card.")) {
+                const match = href.match(/^action:card\.([a-z0-9_-]+)(?:\?q=(.*))?$/i);
+                if (match && onCardSwitch) {
+                  const cardId = match[1];
+                  const query = match[2] ? decodeURIComponent(match[2].replace(/\+/g, " ")) : "";
+                  return (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onCardSwitch(cardId, query);
+                      }}
+                      className="inline-flex items-center gap-1 text-[var(--color-gold-bright)] hover:text-[var(--color-gold)] underline underline-offset-2 decoration-dotted font-medium text-[0.92em] transition-colors cursor-pointer bg-transparent border-0 p-0"
+                    >
+                      {children}
+                    </button>
+                  );
+                }
+              }
+              return (
+                <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+                  {children}
+                </a>
+              );
+            },
+          }}
+        >
           {message.content}
         </ReactMarkdown>
       </div>

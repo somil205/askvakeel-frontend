@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local backups — never commit
+*.bak
+*.backup
+
+# Claude Code / code-review-graph local state
+.mcp.json
+.code-review-graph/
+.crg/
+*.crg
+.claude/
+.claude.json
