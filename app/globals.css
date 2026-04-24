@@ -155,7 +155,7 @@ h1, h2, h3, p, span, button {
 }
 .markdown blockquote p { margin: 0.5rem 0; color: var(--color-cream); }
 .markdown blockquote strong { color: var(--color-cream); font-weight: 600; }
-.markdown blockquote em { color: var(--color-cream-soft); font-style: italic; font-size: 0.92em; }
+.markdown blockquote em { color: var(--color-cream-soft); font-style: italic; font-size: 0.92em; font-variant-ligatures: no-contextual no-discretionary-ligatures; font-feature-settings: normal; }
 @media (max-width: 640px) {
   .markdown blockquote { padding: 0.85rem 1rem 0.85rem 1.15rem; font-size: 0.95rem; }
   .markdown blockquote h3 { font-size: 1rem; }
