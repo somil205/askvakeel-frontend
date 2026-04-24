@@ -128,8 +128,13 @@ h1, h2, h3, p, span, button {
    Without this, Manrope + "ss01"/"ss02" can render "138(c)" as "138©",
    "138(r)" as "138®", etc. — breaking every statute citation. */
 .markdown {
-  font-variant-ligatures: no-contextual no-discretionary-ligatures;
-  font-feature-settings: normal;
+  font-family: var(--font-manrope), system-ui, -apple-system, sans-serif !important;
+  font-variant-ligatures: no-contextual no-discretionary-ligatures !important;
+  font-feature-settings: normal !important;
+}
+.markdown *, .markdown *::before, .markdown *::after {
+  font-variant-ligatures: inherit !important;
+  font-feature-settings: inherit !important;
 }
 
 /* Deadline banner — styled blockquote for the computed-deadline block */
