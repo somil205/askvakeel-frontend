@@ -335,7 +335,7 @@ export default function Home() {
       const res = await fetch(`${API_URL}/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: safeQuery }),  // anonymized version sent to backend
+        body: JSON.stringify({ query: safeQuery, card: activeFeature?.id ?? null }),  // anonymized version sent to backend
       });
       const data = await res.json();
       const response = data.response || "Sorry, I couldn't process that.";
@@ -686,18 +686,35 @@ function FeatureView({ feature, onSend, onBack, input, setInput }: { feature: Fe
             className="relative"
           >
             <div className="relative bg-[var(--color-ink-soft)] border border-[var(--color-ink-line)] focus-within:border-[var(--color-gold)] rounded-2xl transition-all shadow-2xl">
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder={feature.placeholder}
-                className="w-full px-5 sm:px-7 py-4 sm:py-6 pr-14 sm:pr-16 bg-transparent outline-none text-base sm:text-lg placeholder:text-[var(--color-cream-muted)]"
-                autoFocus
-              />
+              {feature.id === "timeline" ? (
+                <textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      onSend(input);
+                    }
+                  }}
+                  placeholder={feature.placeholder}
+                  className="w-full px-5 sm:px-7 py-4 sm:py-6 pr-14 sm:pr-16 bg-transparent outline-none text-base sm:text-lg placeholder:text-[var(--color-cream-muted)] resize-none min-h-[140px] leading-relaxed"
+                  rows={5}
+                  autoFocus
+                />
+              ) : (
+                <input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder={feature.placeholder}
+                  className="w-full px-5 sm:px-7 py-4 sm:py-6 pr-14 sm:pr-16 bg-transparent outline-none text-base sm:text-lg placeholder:text-[var(--color-cream-muted)]"
+                  autoFocus
+                />
+              )}
               <button
                 type="submit"
                 disabled={!input.trim()}
                 aria-label="Send"
-                className="absolute right-2 sm:right-2.5 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 bg-gradient-to-br from-[var(--color-gold-bright)] to-[var(--color-gold)] text-[var(--color-ink)] rounded-xl flex items-center justify-center disabled:opacity-40 hover:opacity-90 transition-opacity"
+                className={`absolute right-2 sm:right-2.5 ${feature.id === "timeline" ? "bottom-2 sm:bottom-2.5" : "top-1/2 -translate-y-1/2"} w-11 h-11 sm:w-12 sm:h-12 bg-gradient-to-br from-[var(--color-gold-bright)] to-[var(--color-gold)] text-[var(--color-ink)] rounded-xl flex items-center justify-center disabled:opacity-40 hover:opacity-90 transition-opacity`}
               >
                 <Send className="w-4 h-4" strokeWidth={2.5} />
               </button>
