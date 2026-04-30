@@ -454,7 +454,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
           <div className="flex items-center gap-2 mb-6 sm:mb-10">
             <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-gold)]"></div>
             <span className="text-[9px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[var(--color-cream-muted)]">
-              AI Trained on 14 Indian Laws · BNS · BNSS · Constitution
+              14 Indian Laws · Criminal · Civil · Consumer · Workplace
             </span>
           </div>
 
