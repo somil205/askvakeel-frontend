@@ -424,7 +424,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
         </div>
       </header>
 
-      <section className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-24 pb-12 sm:pb-20">
+      <section className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-24 pb-8 sm:pb-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -498,7 +498,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
         </motion.div>
       </section>
 
-      <section id="features" className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-32">
+      <section id="features" className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-20 pb-16 sm:pb-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
