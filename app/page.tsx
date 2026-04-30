@@ -94,8 +94,8 @@ const FEATURES: Feature[] = [
     id: "fir",
     icon: FileText,
     title: "FIR Draft Generator",
-    desc: "Describe what happened. Get a complete FIR in the format Indian police actually accept — downloadable as PDF.",
-    longDesc: "Describe what happened and get a ready-to-file FIR with correct BNS sections, proper format, and legal language. Download as PDF to take directly to the police station.",
+    desc: "Describe what happened. Get a complete FIR in the format Indian police actually accept - downloadable as PDF.",
+    longDesc: "Describe what happened and get a ready to file FIR with correct BNS sections, proper format, and legal language. Download as PDF to take directly to the police station.",
     suggestions: [
       "Draft FIR for theft of phone",
       "Draft FIR for break-in at home",
@@ -113,7 +113,7 @@ const FEATURES: Feature[] = [
     id: "caselaw",
     icon: BookOpen,
     title: "Landmark Case Law",
-    desc: "Cite real Supreme Court judgments — Maneka Gandhi, Kesavananda, Puttaswamy, Vishaka — with the paragraphs that matter.",
+    desc: "Cite real Supreme Court judgments - Maneka Gandhi, Kesavananda, Puttaswamy, Vishaka - with the paragraphs that matter.",
     longDesc: "Get landmark Supreme Court judgments relevant to your legal issue. Proper citations, ratio decidendi, and current applicability.",
     suggestions: [
       "Landmark judgments on right to privacy",
@@ -179,7 +179,7 @@ const FEATURES: Feature[] = [
     id: "explain",
     icon: Gavel,
     title: "Lawyer Analysis Mode",
-    desc: "Senior-counsel-style memo on any case: primary position, opposing arguments, rebuttals, and a case-strength score.",
+    desc: "Senior counsel style memo on any case: primary position, opposing arguments, rebuttals, and a case-strength score.",
     longDesc: "Professional-grade analysis for lawyers: primary position, opposing counsel's likely argument, rebuttal strategies, case strength score, and practical next steps.",
     suggestions: [
       "As a lawyer, analyze Section 498A dowry harassment",
@@ -247,7 +247,7 @@ const FEATURES: Feature[] = [
     id: "arguments",
     icon: Gavel,
     title: "Final Arguments Builder",
-    desc: "A complete oral submission for court — facts, evidence, law, precedent, and prayer in the order judges expect.",
+    desc: "A complete oral submission for court - facts, evidence, law, precedent, and prayer in the order judges expect.",
     longDesc: "Build complete oral arguments for final hearing. Opens with greeting, walks through issues, analyzes evidence, cites law, rebuts opposition, closes with prayer. Delivery tips and response to likely judge questions included.",
     suggestions: [
       "Final arguments for defence in cheque bounce case",
@@ -519,7 +519,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
         </motion.div>
       </section>
 
-      <section id="features" className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-20 pb-16 sm:pb-32">
+      <section id="features" className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-20 pb-12 sm:pb-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -554,10 +554,9 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
                   <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-[var(--color-ink-elev)] border border-[var(--color-ink-line)] flex items-center justify-center mb-4 sm:mb-5 group-hover:border-[var(--color-gold)] transition-colors">
                     <Icon className="w-5 h-5 text-[var(--color-gold)]" strokeWidth={1.5} />
                   </div>
-                  <h3 className="font-display text-xl sm:text-2xl mb-2 sm:mb-3 text-[var(--color-cream)]">{feat.title}</h3>
+                  <h3 className="font-display text-xl sm:text-2xl sm:min-h-[2lh] mb-2 sm:mb-3 text-[var(--color-cream)]">{feat.title}</h3>
                   <p className="text-sm text-[var(--color-cream-soft)] leading-relaxed">{feat.desc}</p>
                   <div className="hidden mt-4 sm:mt-5 group-hover:flex items-center gap-1.5 text-[10px] sm:text-[11px] tracking-[0.12em] sm:tracking-[0.15em] uppercase text-[var(--color-gold)]">
-
                     Open tool <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={2} />
                   </div>
                 </div>
@@ -568,7 +567,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
       </section>
 
       <section className="relative z-10 border-t border-[var(--color-ink-line)] bg-[var(--color-ink-soft)]/40">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-24 text-center">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20 text-center">
           <p className="text-[10px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[var(--color-gold)] mb-4 sm:mb-5">Trained on</p>
           <h3 className="font-display fluid-h3 mb-8 sm:mb-10 text-balance max-w-2xl mx-auto">
             All 14 major Indian laws, <span className="italic gold-gradient">at your fingertips.</span>
