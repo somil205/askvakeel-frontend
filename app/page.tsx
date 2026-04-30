@@ -2,13 +2,13 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Send, Download, Loader2, Trash2, ArrowUpRight, FileText, Scale, BookOpen, Gavel, Shield, Users, Sparkles, ArrowLeft, Lock, MessageSquare, Handshake, Calendar } from "lucide-react";
+import { Send, Download, Loader2, Trash2, ArrowUpRight, FileText, Scale, BookOpen, Gavel, Shield, Users, Sparkles, ArrowLeft, Lock, MessageSquare, Handshake, Calendar, GitMerge } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { anonymize, containsPII } from "@/lib/anonymize";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://vakeel-ai-production.up.railway.app";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://sam205-askvakeel-api.hf.space";
 
 type Message = { role: "user" | "assistant"; content: string };
 type ViewMode = "landing" | "chat" | "feature";
@@ -238,6 +238,22 @@ const FEATURES: Feature[] = [
     ],
     placeholder: "Describe the case stage and side you represent...",
     privacyNotice: true,
+  },
+  {
+    id: "compound",
+    icon: GitMerge,
+    title: "Compoundability Checker",
+    desc: "Can this offence be settled? Verified BNSS Section 359 lookup with strategic advice.",
+    longDesc: "Check whether a BNS section can be compounded (settled) under BNSS Section 359. Get verified status — directly compoundable, requires court permission, or non-compoundable — plus who can compound, statutory basis, and lawyer-grade strategic advice on timing, court considerations, and negotiation pitfalls.",
+    suggestions: [
+      "Is BNS 318(2) compoundable?",
+      "Can BNS 115(2) hurt case be compounded?",
+      "Compoundability of cheating BNS 318",
+      "BNS 117(2) grievous hurt compounding",
+      "Can BNS 103 murder be compounded?",
+      "Is criminal breach of trust BNS 316 compoundable?",
+    ],
+    placeholder: "Enter BNS section (e.g. 318(2)) or describe the offence...",
   },
 ];
 
