@@ -519,7 +519,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
         </motion.div>
       </section>
 
-      <section id="features" className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-20 pb-12 sm:pb-20">
+      <section id="features" className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-8 sm:pb-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -567,7 +567,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
       </section>
 
       <section className="relative z-10 border-t border-[var(--color-ink-line)] bg-[var(--color-ink-soft)]/40">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20 text-center">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 text-center">
           <p className="text-[10px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[var(--color-gold)] mb-4 sm:mb-5">Trained on</p>
           <h3 className="font-display fluid-h3 mb-8 sm:mb-10 text-balance max-w-2xl mx-auto">
             All 14 major Indian laws, <span className="italic gold-gradient">at your fingertips.</span>
@@ -589,7 +589,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
         </div>
       </section>
 
-      <section id="about" className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-32">
+      <section id="about" className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
         <div className="grid md:grid-cols-5 gap-8 sm:gap-16">
           <div className="md:col-span-2">
             <p className="text-[10px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[var(--color-gold)] mb-4 sm:mb-5">Why AskVakeel</p>
