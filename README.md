@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AskVakeel Frontend
 
-## Getting Started
+The Next.js frontend for [askvakeel.in](https://askvakeel.in) — free legal AI for India.
 
-First, run the development server:
+## Stack
+
+- Next.js 15 + TypeScript + Tailwind
+- Hosted on Vercel
+- Backend API: [HuggingFace Spaces](https://sam205-askvakeel-api.hf.space)
+
+## Architecture
+
+- `app/page.tsx` — landing page with 13 feature cards
+- `lib/anonymize.ts` — client-side PII stripping (Aadhaar, PAN, phone, names, addresses, case numbers) before queries leave the browser
+- Environment: `NEXT_PUBLIC_API_URL=https://sam205-askvakeel-api.hf.space`
+
+## Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Pushes to `main` auto-deploy via Vercel.
 
-## Learn More
+## Privacy
 
-To learn more about Next.js, take a look at the following resources:
+PII is anonymized client-side via `lib/anonymize.ts` before any network request. No accounts, no logs, no stored conversations on the server side.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
