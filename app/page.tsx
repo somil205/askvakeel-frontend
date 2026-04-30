@@ -547,7 +547,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.04 }}
-                className="group hover-lift bg-[var(--color-ink-soft)]/60 border border-[var(--color-ink-line)] hover:border-[var(--color-gold-dim)] p-6 sm:p-8 text-left rounded-2xl backdrop-blur-sm relative overflow-hidden"
+                className="group hover-lift flex flex-col items-start bg-[var(--color-ink-soft)]/60 border border-[var(--color-ink-line)] hover:border-[var(--color-gold-dim)] p-6 sm:p-8 text-left rounded-2xl backdrop-blur-sm relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-gold)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="relative">
