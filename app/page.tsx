@@ -403,7 +403,7 @@ export default function Home() {
 }
 
 function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string) => void; input: string; setInput: (v: string) => void; onFeature: (f: Feature) => void }) {
-  const LAW_CHIPS = ["Criminal", "Constitution", "POCSO", "Cyber", "Consumer", "Marriage", "Employment", "Cheque", "Accidents", "POSH", "RTI"];
+  const LAW_CHIPS = ["Criminal (BNS)", "Procedure (BNSS)", "Evidence (BSA)", "Constitution", "POCSO", "Cyber (IT Act)", "Consumer", "Marriage", "Domestic Violence", "Employment (ID Act)", "Cheque (NI Act)", "Accidents (MV Act)", "POSH", "RTI"];
 
   return (
     <div className="noise min-h-screen relative overflow-hidden">
@@ -498,28 +498,6 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
         </motion.div>
       </section>
 
-      <section className="relative z-10 border-y border-[var(--color-ink-line)] bg-[var(--color-ink-soft)]/30">
-        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-8 sm:py-10 grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-8 sm:gap-10">
-          {[
-            { num: "14", label: "Indian Laws" },
-            { num: "3,474", label: "Legal Sections" },
-            { num: "407", label: "IPC → BNS Maps" },
-            { num: "₹0", label: "Always Free" },
-          ].map((stat, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-            >
-              <div className="font-display fluid-stat mb-2 gold-gradient">{stat.num}</div>
-              <div className="text-[10px] sm:text-[11px] tracking-[0.12em] sm:tracking-[0.15em] uppercase text-[var(--color-cream-muted)]">{stat.label}</div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
       <section id="features" className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -607,12 +585,12 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
             </p>
             <div className="pt-5 sm:pt-6 border-t border-[var(--color-ink-line)] space-y-3 text-xs sm:text-sm text-[var(--color-cream-muted)]">
               <div className="flex items-start gap-3">
-                <span className="text-[var(--color-gold)] flex-shrink-0 text-base sm:text-lg leading-none mt-0.5">⚠</span>
-                <p className="leading-relaxed"><span className="text-[var(--color-cream-soft)]">Legal information only</span> — not legal advice. For specific matters, consult a qualified advocate.</p>
-              </div>
-              <div className="flex items-start gap-3">
                 <Lock className="w-4 h-4 text-[var(--color-gold)] flex-shrink-0 mt-0.5" strokeWidth={1.5} />
                 <p className="leading-relaxed"><span className="text-[var(--color-cream-soft)]">Privacy protected</span> — Names, Aadhaar, PAN, phone numbers, addresses, and case numbers are automatically stripped from your queries before they leave your browser. No accounts, no logs, no stored conversations.</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-[var(--color-gold)] flex-shrink-0 text-base sm:text-lg leading-none mt-0.5">⚠</span>
+                <p className="leading-relaxed"><span className="text-[var(--color-cream-soft)]">Legal information only</span> — not legal advice. For specific matters, consult a qualified advocate.</p>
               </div>
             </div>
           </div>
