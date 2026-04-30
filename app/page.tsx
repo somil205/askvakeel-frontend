@@ -25,11 +25,12 @@ type Feature = {
 };
 
 const FEATURES: Feature[] = [
+  // ─── CITIZEN TIER ─────────────────────────────────────────────
   {
     id: "sections",
     icon: Scale,
     title: "Section Finder",
-    desc: "Find every applicable section across BNS, BNSS, BSA, Constitution, and 10 other major acts.",
+    desc: "Search any law and get the exact section that applies. Covers BNS, BNSS, BSA, the Constitution, and 10 other major acts.",
     longDesc: "Describe a situation and get a complete table of every applicable section across all 14 Indian laws with punishments and classifications.",
     suggestions: [
       "What sections apply for online fraud?",
@@ -45,7 +46,7 @@ const FEATURES: Feature[] = [
     id: "punishment",
     icon: FileText,
     title: "Punishment Calculator",
-    desc: "Exact sentences, fines, bail status, cognizability, and court jurisdiction for any offence.",
+    desc: "Look up the sentence, fine, and bail status for any offence. Tells you if it's bailable, cognizable, and which court hears it.",
     longDesc: "Get a complete punishment table: min/max sentence, fine amount, bail status, cognizability, compoundability, and which court tries it.",
     suggestions: [
       "What is the punishment for robbery?",
@@ -61,7 +62,7 @@ const FEATURES: Feature[] = [
     id: "limitation",
     icon: Sparkles,
     title: "Limitation Calculator",
-    desc: "Exact deadlines for every legal action — cheque bounce, consumer, RTI, appeals. Verified from the Limitation Act 1963.",
+    desc: "How long do you have to file? Get the deadline for cheque bounce, consumer complaints, RTI appeals, and more — straight from the Limitation Act 1963.",
     longDesc: "Verified deadlines from the Limitation Act 1963 and specific statutes. Pure retrieval from legal codes — every deadline is directly from the law.",
     suggestions: [
       "Limitation period for cheque bounce",
@@ -77,7 +78,7 @@ const FEATURES: Feature[] = [
     id: "ipc-bns",
     icon: Users,
     title: "IPC to BNS Converter",
-    desc: "407 mappings between old IPC sections and new Bharatiya Nyaya Sanhita codes.",
+    desc: "Old FIR mentions IPC sections that no longer exist? Map all 407 IPC sections to their new BNS equivalents.",
     longDesc: "Old IPC section numbers are confusing now. Get the exact BNS equivalent with full section details.",
     suggestions: [
       "Convert IPC 302 to BNS",
@@ -93,7 +94,7 @@ const FEATURES: Feature[] = [
     id: "fir",
     icon: FileText,
     title: "FIR Draft Generator",
-    desc: "Generate a professional FIR in the correct Indian police format. Download as PDF instantly.",
+    desc: "Describe what happened. Get a complete FIR in the format Indian police actually accept — downloadable as PDF.",
     longDesc: "Describe what happened and get a ready-to-file FIR with correct BNS sections, proper format, and legal language. Download as PDF to take directly to the police station.",
     suggestions: [
       "Draft FIR for theft of phone",
@@ -106,28 +107,45 @@ const FEATURES: Feature[] = [
     placeholder: "Describe the incident...",
     privacyNotice: true,
   },
+
+  // ─── BRIDGE: CITIZEN-LEANING, MIXED AUDIENCE ──────────────────
   {
-    id: "bail",
-    icon: Shield,
-    title: "Bail & Criminal Strategy",
-    desc: "Full bail analysis + plea bargaining advice. Case-specific if you provide facts.",
-    longDesc: "Complete bail strategy: bailable status, court jurisdiction, case strength score, grounds to argue, likely conditions, plea bargaining options under BNSS 289-300, and next steps. Provide client background for case-specific advice.",
+    id: "caselaw",
+    icon: BookOpen,
+    title: "Landmark Case Law",
+    desc: "Cite real Supreme Court judgments — Maneka Gandhi, Kesavananda, Puttaswamy, Vishaka — with the paragraphs that matter.",
+    longDesc: "Get landmark Supreme Court judgments relevant to your legal issue. Proper citations, ratio decidendi, and current applicability.",
     suggestions: [
-      "Will I get bail for theft case?",
-      "Bail strategy for cheque bounce first offence",
-      "Anticipatory bail for false dowry case",
-      "Plea bargaining for cheating under BNS 318",
-      "Default bail eligibility after 60 days",
-      "Regular bail in cyber fraud case",
+      "Landmark judgments on right to privacy",
+      "Supreme Court rulings on free speech",
+      "Case law on mandatory FIR registration",
+      "Precedents on women's workplace rights",
+      "Landmark judgments on arrest procedures",
+      "Supreme Court cases on bail principles",
     ],
-    placeholder: "Describe the offence and any client background...",
-    privacyNotice: true,
+    placeholder: "What legal issue do you need case law for?",
+  },
+  {
+    id: "compound",
+    icon: GitMerge,
+    title: "Compoundability Checker",
+    desc: "Can this case be settled out of court? Looks up BNSS Section 359 and tells you whether you need the magistrate's permission.",
+    longDesc: "Check whether a BNS section can be compounded (settled) under BNSS Section 359. Get verified status — directly compoundable, requires court permission, or non-compoundable — plus who can compound, statutory basis, and lawyer-grade strategic advice on timing, court considerations, and negotiation pitfalls.",
+    suggestions: [
+      "Is BNS 318(2) compoundable?",
+      "Can BNS 115(2) hurt case be compounded?",
+      "Compoundability of cheating BNS 318",
+      "BNS 117(2) grievous hurt compounding",
+      "Can BNS 103 murder be compounded?",
+      "Is criminal breach of trust BNS 316 compoundable?",
+    ],
+    placeholder: "Enter BNS section (e.g. 318(2)) or describe the offence...",
   },
   {
     id: "pleabargain",
     icon: Handshake,
     title: "Plea Bargaining Advisor",
-    desc: "Evaluate plea bargaining under BNSS 289-300. Eligibility, benefits, procedure, strategic advice.",
+    desc: "Walk through whether plea bargaining (BNSS 289–300) makes sense for your case, what you'd give up, and what you'd gain.",
     longDesc: "Determine if plea bargaining is available and beneficial. Covers BNSS 289-300 eligibility, sentence reduction (1/4 or 1/2 of minimum), procedure, MSD meeting, compensation to victim, and strategic considerations.",
     suggestions: [
       "Is plea bargaining available for cheating under BNS 318?",
@@ -155,27 +173,13 @@ const FEATURES: Feature[] = [
     placeholder: "Paste your events, one per line, each with a date...",
     privacyNotice: true,
   },
-  {
-    id: "caselaw",
-    icon: BookOpen,
-    title: "Landmark Case Law",
-    desc: "Cite actual Supreme Court judgments — Maneka Gandhi, Kesavananda, Puttaswamy, Vishaka, and more.",
-    longDesc: "Get landmark Supreme Court judgments relevant to your legal issue. Proper citations, ratio decidendi, and current applicability.",
-    suggestions: [
-      "Landmark judgments on right to privacy",
-      "Supreme Court rulings on free speech",
-      "Case law on mandatory FIR registration",
-      "Precedents on women's workplace rights",
-      "Landmark judgments on arrest procedures",
-      "Supreme Court cases on bail principles",
-    ],
-    placeholder: "What legal issue do you need case law for?",
-  },
+
+  // ─── LAWYER TIER ──────────────────────────────────────────────
   {
     id: "explain",
     icon: Gavel,
     title: "Lawyer Analysis Mode",
-    desc: "Rigorous legal analysis with primary position, opposing arguments, rebuttals, and case strength score.",
+    desc: "Senior-counsel-style memo on any case: primary position, opposing arguments, rebuttals, and a case-strength score.",
     longDesc: "Professional-grade analysis for lawyers: primary position, opposing counsel's likely argument, rebuttal strategies, case strength score, and practical next steps.",
     suggestions: [
       "As a lawyer, analyze Section 498A dowry harassment",
@@ -189,10 +193,27 @@ const FEATURES: Feature[] = [
     privacyNotice: true,
   },
   {
+    id: "bail",
+    icon: Shield,
+    title: "Bail & Criminal Strategy",
+    desc: "Full bail analysis with grounds, opposing points, and plea bargaining angles. Sharper if you paste the facts.",
+    longDesc: "Complete bail strategy: bailable status, court jurisdiction, case strength score, grounds to argue, likely conditions, plea bargaining options under BNSS 289-300, and next steps. Provide client background for case-specific advice.",
+    suggestions: [
+      "Will I get bail for theft case?",
+      "Bail strategy for cheque bounce first offence",
+      "Anticipatory bail for false dowry case",
+      "Plea bargaining for cheating under BNS 318",
+      "Default bail eligibility after 60 days",
+      "Regular bail in cyber fraud case",
+    ],
+    placeholder: "Describe the offence and any client background...",
+    privacyNotice: true,
+  },
+  {
     id: "crossexam",
     icon: Users,
     title: "Cross Exam Prep",
-    desc: "Strategic cross-examination with contradiction analysis. Paste witness statement for targeted questions.",
+    desc: "Paste a witness statement. Get targeted questions that expose contradictions and weak points.",
     longDesc: "Deep cross-examination preparation. Paste the witness statement and AI identifies specific contradictions, generates targeted questions, covers objection handling, and teaches court-craft under BSA 2023.",
     suggestions: [
       "Cross exam for prosecution witness in cheque bounce",
@@ -209,7 +230,7 @@ const FEATURES: Feature[] = [
     id: "chiefexam",
     icon: MessageSquare,
     title: "Chief Exam Prep",
-    desc: "Prepare to examine your OWN witness. Open questions, document introduction, credibility building.",
+    desc: "Examine your own witness without leading them. Open-ended questions, document introduction, credibility-building moves.",
     longDesc: "Chief-examination strategy under BSA Section 142 (no leading questions). Covers witness preparation, narrative structure, exhibit introduction, pre-empting cross-exam attacks, and court-craft.",
     suggestions: [
       "Chief examination for my complainant in cheque bounce",
@@ -226,7 +247,7 @@ const FEATURES: Feature[] = [
     id: "arguments",
     icon: Gavel,
     title: "Final Arguments Builder",
-    desc: "Structured oral submissions for court. Facts + Evidence + Law + Precedent + Prayer.",
+    desc: "A complete oral submission for court — facts, evidence, law, precedent, and prayer in the order judges expect.",
     longDesc: "Build complete oral arguments for final hearing. Opens with greeting, walks through issues, analyzes evidence, cites law, rebuts opposition, closes with prayer. Delivery tips and response to likely judge questions included.",
     suggestions: [
       "Final arguments for defence in cheque bounce case",
@@ -238,22 +259,6 @@ const FEATURES: Feature[] = [
     ],
     placeholder: "Describe the case stage and side you represent...",
     privacyNotice: true,
-  },
-  {
-    id: "compound",
-    icon: GitMerge,
-    title: "Compoundability Checker",
-    desc: "Can this offence be settled? Verified BNSS Section 359 lookup with strategic advice.",
-    longDesc: "Check whether a BNS section can be compounded (settled) under BNSS Section 359. Get verified status — directly compoundable, requires court permission, or non-compoundable — plus who can compound, statutory basis, and lawyer-grade strategic advice on timing, court considerations, and negotiation pitfalls.",
-    suggestions: [
-      "Is BNS 318(2) compoundable?",
-      "Can BNS 115(2) hurt case be compounded?",
-      "Compoundability of cheating BNS 318",
-      "BNS 117(2) grievous hurt compounding",
-      "Can BNS 103 murder be compounded?",
-      "Is criminal breach of trust BNS 316 compoundable?",
-    ],
-    placeholder: "Enter BNS section (e.g. 318(2)) or describe the offence...",
   },
 ];
 
