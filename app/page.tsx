@@ -551,12 +551,13 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-gold)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="relative">
-                  <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-[var(--color-ink-elev)] border border-[var(--color-ink-line)] flex items-center justify-center mb-5 sm:mb-6 group-hover:border-[var(--color-gold)] transition-colors">
+                  <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-[var(--color-ink-elev)] border border-[var(--color-ink-line)] flex items-center justify-center mb-4 sm:mb-5 group-hover:border-[var(--color-gold)] transition-colors">
                     <Icon className="w-5 h-5 text-[var(--color-gold)]" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-display text-xl sm:text-2xl mb-2 sm:mb-3 text-[var(--color-cream)]">{feat.title}</h3>
-                  <p className="text-sm text-[var(--color-cream-soft)] leading-relaxed mb-4 sm:mb-6">{feat.desc}</p>
-                  <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] tracking-[0.12em] sm:tracking-[0.15em] uppercase text-[var(--color-gold)] opacity-0 group-hover:opacity-100 transition-opacity">
+                  <p className="text-sm text-[var(--color-cream-soft)] leading-relaxed">{feat.desc}</p>
+                  <div className="hidden mt-4 sm:mt-5 group-hover:flex items-center gap-1.5 text-[10px] sm:text-[11px] tracking-[0.12em] sm:tracking-[0.15em] uppercase text-[var(--color-gold)]">
+
                     Open tool <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={2} />
                   </div>
                 </div>
