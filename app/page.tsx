@@ -424,7 +424,7 @@ export default function Home() {
 }
 
 function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string) => void; input: string; setInput: (v: string) => void; onFeature: (f: Feature) => void }) {
-  const LAW_CHIPS = ["Criminal (BNS)", "Procedure (BNSS)", "Evidence (BSA)", "Constitution", "POCSO", "Cyber (IT Act)", "Consumer", "Marriage", "Domestic Violence", "Employment (ID Act)", "Cheque (NI Act)", "Accidents (MV Act)", "POSH", "RTI"];
+  const LAW_CHIPS = ["Criminal (BNS)", "Procedure (BNSS)", "Evidence (BSA)", "Constitution", "POCSO", "Civil Procedure (CPC)", "Contract Act", "Specific Relief", "Property (TPA)", "Registration", "Easements", "Cyber (IT Act)", "Consumer", "Marriage", "Domestic Violence", "Employment (ID Act)", "Cheque (NI Act)", "Accidents (MV Act)", "POSH", "RTI"];
 
   return (
     <div className="noise min-h-screen relative overflow-hidden">
@@ -454,7 +454,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
           <div className="flex items-center gap-2 mb-6 sm:mb-10">
             <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-gold)]"></div>
             <span className="text-[9px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[var(--color-cream-muted)]">
-              14 Indian Laws · Criminal · Civil · Consumer · Workplace
+              20 Indian Laws · Criminal · Civil · Consumer · Workplace
             </span>
           </div>
 
@@ -570,7 +570,7 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 text-center">
           <p className="text-[10px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[var(--color-gold)] mb-4 sm:mb-5">Trained on</p>
           <h3 className="font-display fluid-h3 mb-8 sm:mb-10 text-balance max-w-2xl mx-auto">
-            All 14 major Indian laws, <span className="italic gold-gradient">at your fingertips.</span>
+            All 20 major Indian laws, <span className="italic gold-gradient">at your fingertips.</span>
           </h3>
           <div className="flex flex-wrap gap-2 sm:gap-3 justify-center max-w-3xl mx-auto">
             {LAW_CHIPS.map((chip, i) => (
@@ -599,10 +599,10 @@ function Landing({ onQuery, input, setInput, onFeature }: { onQuery: (q: string)
           </div>
           <div className="md:col-span-3 space-y-5 sm:space-y-6 text-[var(--color-cream-soft)] leading-loose text-base sm:text-lg">
             <p>
-              Most legal tools charge ₹5,000+ per consultation or ₹2,000/month for lawyer software. AskVakeel is different. Free for everyone — citizens who need rights clarity and lawyers who need daily tools.
+              Most legal tools charge ₹5,000+ per consultation or ₹2,000/month for lawyer software. AskVakeel is different. Free for everyone - citizens who need rights clarity and lawyers who need daily tools.
             </p>
             <p>
-              Trained on all 14 major Indian laws — from the new Bharatiya Nyaya Sanhita (BNS) replacing IPC, to BNSS, BSA, Constitution, Consumer Protection, Domestic Violence, POCSO, IT Act, Motor Vehicles, and more. Includes lawyer-specific tools: cross/chief examination prep, final arguments, plea bargaining analysis, and case-specific bail strategy.
+              Trained on all 20 major Indian laws - from the new Bharatiya Nyaya Sanhita (BNS) replacing IPC to BNSS, BSA, and Constitution on the criminal side, plus full civil coverage with CPC, Indian Contract Act, Specific Relief, Transfer of Property, Registration, and Easements. Also covers Consumer Protection, Domestic Violence, POCSO, IT Act, Motor Vehicles, and more. Includes lawyer-specific tools: cross/chief examination prep, final arguments, plea bargaining analysis, and case-specific bail strategy.
             </p>
             <div className="pt-5 sm:pt-6 border-t border-[var(--color-ink-line)] space-y-3 text-xs sm:text-sm text-[var(--color-cream-muted)]">
               <div className="flex items-start gap-3">
